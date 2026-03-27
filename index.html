@@ -1,1 +1,222 @@
-<h1>Portfolio</h1>
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adrian van Rijswijk | Portfolio BUT Informatique</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#992DD6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        details > div {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        summary::-webkit-details-marker { display: none; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+
+    <nav class="bg-white/90 backdrop-blur-sm shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-gray-800">Adrian van Rijswijk</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#accueil" class="text-gray-600 hover:text-brand px-3 py-2 rounded-md font-medium transition">Accueil</a>
+                        <a href="#competences-projets" class="text-gray-600 hover:text-brand px-3 py-2 rounded-md font-medium transition">Compétences & Projets</a>
+                        <a href="#a-propos" class="bg-brand text-white px-4 py-2 rounded-md font-medium hover:bg-purple-700 transition">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="text-gray-600 hover:text-gray-900 focus:outline-none text-2xl">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header id="accueil" class="bg-white min-h-[calc(100vh-64px)] flex items-center border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-6">
+                Bonjour, je suis <span class="text-brand">Adrian van Rijswijk</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed">
+                Étudiant en 2ème année de BUT Informatique
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#competences-projets" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-brand hover:bg-purple-700 transition">
+                    Voir mes projets
+                </a>
+                <a href="#a-propos" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition">
+                    Me contacter
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="competences-projets" class="py-24 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900">Compétences & Projets Associés</h2>
+                <p class="mt-4 text-lg text-gray-600">Découvrez mes réalisations classées selon les 6 compétences du BUT Informatique.</p>
+            </div>
+
+            <div class="space-y-6">
+                
+                <details class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-200 cursor-pointer">
+                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
+                        <span class="text-gray-900">1. Réaliser : Développer des applications informatiques</span>
+                        <i class="fa-solid fa-chevron-down text-brand transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-6 border-t border-gray-100 pt-4">
+                        <p class="text-gray-600 mb-4">Conception, codage, test et intégration d'applications.</p>
+                        
+                        <details class="group/projet bg-gray-50 p-4 rounded-xl border border-gray-200 cursor-pointer mb-3 hover:border-brand transition">
+                            <summary class="flex justify-between items-center font-medium text-lg list-none text-gray-800">
+                                <span>Projet : Lorem</span>
+                                <i class="fa-solid fa-angle-down text-gray-400 transition-transform duration-300 group-open/projet:rotate-180 group-hover/projet:text-brand"></i>
+                            </summary>
+                            <div class="mt-4 pl-4 border-l-2 border-brand text-gray-600 text-sm">
+                                <p class="mb-4">lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-mono bg-white px-2 py-1 rounded border border-gray-200">Python, JSON</span>
+                                    <a href="https://github.com/avanrijswijk" target="_blank" class="font-medium text-brand hover:underline">Voir sur GitHub →</a>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+                </details>
+
+                <details class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-200 cursor-pointer">
+                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
+                        <span class="text-gray-900">2. Optimiser : Optimiser des applications informatiques</span>
+                        <i class="fa-solid fa-chevron-down text-brand transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-6 border-t border-gray-100 pt-4 text-gray-600">
+                        <p class="mb-4">Analyse de la complexité algorithmique, choix des structures de données adaptées.</p>
+                        <p class="italic text-sm text-gray-500">Cliquez pour ajouter un projet lié à cette compétence...</p>
+                    </div>
+                </details>
+
+                <details class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-200 cursor-pointer">
+                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
+                        <span class="text-gray-900">3. Administrer : Administrer des systèmes informatiques communicants</span>
+                        <i class="fa-solid fa-chevron-down text-brand transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-6 border-t border-gray-100 pt-4 text-gray-600">
+                        <p class="mb-4">Configuration de réseaux, déploiement de services, utilisation de Linux.</p>
+                        </div>
+                </details>
+
+                <details class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-200 cursor-pointer">
+                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
+                        <span class="text-gray-900">4. Gérer : Gérer des données de l'information</span>
+                        <i class="fa-solid fa-chevron-down text-brand transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-6 border-t border-gray-100 pt-4 text-gray-600">
+                        <p class="mb-4">Conception, création et interrogation de bases de données.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-200 cursor-pointer">
+                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
+                        <span class="text-gray-900">5. Conduire : Conduire un projet</span>
+                        <i class="fa-solid fa-chevron-down text-brand transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-6 border-t border-gray-100 pt-4 text-gray-600">
+                        <p class="mb-4">Méthodologies agiles, gestion du cycle de vie logiciel, expression des besoins.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-200 cursor-pointer">
+                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
+                        <span class="text-gray-900">6. Collaborer : Travailler dans une équipe informatique</span>
+                        <i class="fa-solid fa-chevron-down text-brand transition-transform duration-300 group-open:rotate-180"></i>
+                    </summary>
+                    <div class="mt-6 border-t border-gray-100 pt-4 text-gray-600">
+                        <p class="mb-4">Utilisation de Git/GitHub, communication professionnelle, intégration dans une équipe.</p>
+                    </div>
+                </details>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="a-propos" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-50 rounded-3xl border border-gray-200 overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="p-12 lg:p-16 flex flex-col justify-center">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">À propos de moi</h2>
+                        <p class="text-lg text-gray-600 leading-relaxed mb-6">
+                            Actuellement en deuxième année de BUT Informatique, je développe une solide base en développement logiciel et en architecture web. Curieux et autonome, j'aime explorer de nouvelles technologies et relever des défis techniques.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gray-900 p-12 lg:p-16 text-white flex flex-col justify-center">
+                        <h3 class="text-3xl font-bold mb-8">Me contacter</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-4">
+                                <i class="fa-solid fa-envelope text-brand text-2xl w-8 text-center"></i>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Email Personnel</p>
+                                    <a href="mailto:adrianlvr127@gmail.com" class="text-lg hover:text-brand transition">adrianlvr127@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i class="fa-solid fa-graduation-cap text-brand text-2xl w-8 text-center"></i>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">Email Étudiant</p>
+                                    <a href="mailto:adrian.van-rijswijk@etu.unilim.fr" class="text-lg hover:text-brand transition">adrian.van-rijswijk@etu.unilim.fr</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i class="fa-brands fa-linkedin text-brand text-2xl w-8 text-center"></i>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">LinkedIn</p>
+                                    <a href="https://www.linkedin.com/in/adrian-vanrijswijk" target="_blank" class="text-lg hover:text-brand transition">Adrian van Rijswijk</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i class="fa-brands fa-github text-brand text-2xl w-8 text-center"></i>
+                                <div>
+                                    <p class="text-xs text-gray-400 uppercase tracking-wider font-semibold">GitHub</p>
+                                    <a href="https://github.com/avanrijswijk" target="_blank" class="text-lg hover:text-brand transition">github.com/avanrijswijk</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white py-10 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500">
+            <p>Adrian van Rijswijk - Étudiant en BUT Informatique</p>
+            <p>&copy; 2026</p>
+        </div>
+    </footer>
+
+</body>
+</html>
