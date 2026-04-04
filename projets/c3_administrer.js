@@ -52,22 +52,23 @@ window.portfolioData.push({
 
         {
             id: "authentification_cas",
-            titre: "SAE A2 - Questionnaire en ligne",
+            titre: "SAE A2 - Questionnaire en ligne (Authentification CAS)",
             icon: "fa-code",
             tags: ['CAS', 'Authentification'],
             images: ["data/CAS - 1.png"],
-            descriptionCourte: "Conception et simulation d'un réseau fictif.",
+            descriptionCourte: "Intégration d'un système d'authentification CAS pour sécuriser une application web.",
             descriptionLongue: `
-                <strong>Description :</strong><br> Ce projet consiste à concevoir et installer un réseau fictif avec des contraintes de plages d'adresses IP, que nous devions découper et calculer dans l'émulateur Kathara utilisant des fichiers de configuration pour simuler des routeurs et des machines virtuelles.<br><br>
+                <strong>Description :</strong><br> Au cours de ce projet, j'ai intégré et configuré le système d'authentification CAS de l'Université du Limousin pour sécuriser une application web. Cela impliquait la gestion des utilisateurs et des sessions avec le traitement des requêtes et des informations renvoyées.<br><br>
                 
-                <strong>Rôle personnel :</strong><br> Travail en binôme, je me suis principalement occupé du calcul des adresses IP, le découpage en sous-réseaux ainsi que de la configuration des routes.<br><br>
+                <strong>Rôle personnel :</strong><br> Je me suis personnelement occupé de la configuration du système d'authentification et de la gestion des utilisateurs.
+                <br>J'ai rencontré plusieurs difficultés lors de l'intégration du système, notamment via un manque d'informations fournis par la DSI en charge des droits d'accès, ce qui a retardé son implémentation.<br><br>
                 
-                <strong>Livrables :</strong><br> (Consulter les pièces jointes).<br><br>
+                <strong>Livrables :</strong><br> (Consulter la compétence 1. Réaliser, et les pièces jointes).<br><br>
                 
                 <strong>Compétences et AC (Apprentissage Critiques) démontrées :</strong><br><br> 
-                - Conception de réseaux<br>
-                - Calcule et découpage de plages d'adresses IP<br>
-                - AC23.02 | Utiliser des serveurs et des services réseaux virtualisés <br><br>
+                - Intégration de systèmes d'authentification<br>
+                - Gestion des groupes utilisateurs et des sessions<br>
+                - AC23.03 | Sécuriser les services et données d'un système <br><br>
             `,
             lien: "https://github.com/avanrijswijk"
         }

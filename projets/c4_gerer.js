@@ -9,31 +9,47 @@ window.portfolioData.push({
     description: "Conception, création et interrogation de bases de données.",
     projets: [
         {
-            id: "projet_taches",
-            titre: "Gestionnaire de Tâches",
-            icon: "fa-code",
-            tags: ["Python", "JSON", "CLI"],
-            images: ["data/capture1.jpg"],
-            descriptionCourte: "Application CLI en Python pour gérer des listes de tâches avec sauvegarde JSON.",
+            id: "analyse_graphique",
+            titre: "SAE A2 - Questionnaire en ligne (Analyse graphique)",
+            icon: "fa-chart-bar",
+            tags: ['SQL', 'Chart.js', 'WordCloud.js'],
+            images: [],
+            descriptionCourte: "Traitement et visualisation de données de questionnaire en ligne.",
             descriptionLongue: `
-                <strong>Contexte :</strong> Projet de fin de semestre 2.<br><br>
-                <strong>Objectif :</strong> Développer une application en ligne de commande permettant de créer, modifier, supprimer et lister des tâches.<br><br>
-                <strong>Défis techniques :</strong> Gestion de la persistance des données via la sérialisation d'objets Python en JSON.
+                <strong>Description :</strong><br> Au cours de ce projet, j'ai traité et visualisé les données issues d'un questionnaire en ligne pour permettre au créateur d'avoir une meilleure compréhension des réponses. Les données ont été analysées et représentées graphiquement à l'aide de bibliothèques comme Chart.js et WordCloud.js<br><br>
+                
+                <strong>Rôle personnel :</strong><br> <br><br>
+                
+                <strong>Livrables :</strong><br> Non renseigné.<br><br>
+                
+                <strong>Compétences et AC (Apprentissage Critiques) démontrées :</strong><br><br> 
+                -  <br><br>
             `,
             lien: "https://github.com/avanrijswijk"
         },
+
         {
-            id: "projet_jeu_java",
-            titre: "Jeu de plateau en Java",
-            icon: "fa-laptop-code",
-            tags: ["Java", "JavaFX"],
+            id: "traitement_donnees",
+            titre: "SAE 1.04 - Traitement de données",
+            icon: "fa-database",
+            tags: ["SQL", "CSV"],
             images: [],
-            descriptionCourte: "Développement d'un jeu de plateau avec interface graphique JavaFX.",
+            descriptionCourte: "Traitement de données CSV avec SQL.",
             descriptionLongue: `
-                Projet de groupe visant à répliquer un jeu de société en application de bureau.<br><br>
-                Mise en place d'une architecture MVC (Modèle-Vue-Contrôleur).
+                <strong>Description :</strong><br> Dans ce projet, j'ai extrait des données d'un fichier CSV que j'ai dû découper en plusieurs tables SQL pour les insérer dans une base de données dans une équipe de 2 personnes. J'ai aussi écrit des requêtes SQL en SQLServer pour visualiser les données et pour reproduire des graphiques données dans le sujet.<br><br>
+                
+                <strong>Rôle personnel :</strong><br> J'ai travailé en pair working pour l'extraction des données du fichier CSV et j'ai écrit des requêtes SQL.<br><br>
+                
+                <strong>Livrables :</strong><br> (Voir le compte rendu dans le lien) <br><br>
+                
+                <strong>Compétences et AC (Apprentissage Critiques) démontrées :</strong><br><br> 
+                - Conception de bases de données relationnelles<br> 
+                - Écriture de requêtes SQL pour l'extraction et la visualisation de données<br> 
+                - AC14.01 | Mettre à jour et interroger une base de données relationnelle (en requêtes directes ou à travers une application)<br> 
+                - AC14.02 | Visualiser des données<br> 
+                - AC14.03 | Concevoir une base de données relationnelle à partir d’un cahier des charges  <br><br>
             `,
-            lien: "https://github.com/avanrijswijk"
+            lien: "https://github.com/njacquet87/S1.04"
         }
     ]
 });
