@@ -21,6 +21,7 @@
             }
         }
     </script>
+
     <style>
         details > div { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn {
@@ -46,7 +47,14 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .lightbox-active { opacity: 1 !important; visibility: visible !important; }
+        .lightbox-content-active { transform: scale(1) !important; }
     </style>
+
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300">
 
@@ -107,92 +115,10 @@
                 <p class="mt-4 text-lg text-gray-600 dark:text-gray-400">Découvrez mes réalisations classées selon les 6 compétences du BUT Informatique.</p>
             </div>
 
-            <div class="space-y-6">
-                <details data-aos="fade-up" data-aos-delay="100" class="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors duration-300">
-                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
-                        <span class="text-gray-900 dark:text-white">1. Réaliser : Développer des applications informatiques</span>
-                        <i class="fa-solid fa-chevron-down text-brand dark:text-green-400 transition-transform duration-300 group-open:rotate-180"></i>
-                    </summary>
-                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-6">
-                        <p class="text-gray-600 dark:text-gray-300 mb-6">Conception, codage, test et intégration d'applications.</p>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2" onclick="openModal('projet1')" class="bg-gray-50 dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand dark:hover:border-green-400 shadow-sm transition-colors group/card cursor-pointer flex flex-col h-full transform-gpu">
-                                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover/card:text-brand dark:group-hover/card:text-green-400 transition-colors">
-                                    <i class="fa-solid fa-code text-brand dark:text-green-400 mr-2"></i>Gestionnaire de Tâches
-                                </h4>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow line-clamp-2">Application CLI en Python pour gérer des listes de tâches avec sauvegarde JSON.</p>
-                                <div class="flex flex-wrap gap-2 mt-auto">
-                                    <span class="text-xs font-mono bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded border border-green-100 dark:border-green-800 text-brand dark:text-green-400">Python</span>
-                                    <span class="text-xs font-mono bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded border border-green-100 dark:border-green-800 text-brand dark:text-green-400">JSON</span>
-                                </div>
-                            </div>
-                            
-                            <div data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2" onclick="openModal('projet2')" class="bg-gray-50 dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-brand dark:hover:border-green-400 shadow-sm transition-colors group/card cursor-pointer flex flex-col h-full transform-gpu">
-                                <h4 class="font-bold text-lg text-gray-900 dark:text-white mb-2 group-hover/card:text-brand dark:group-hover/card:text-green-400 transition-colors">
-                                    <i class="fa-solid fa-laptop-code text-brand dark:text-green-400 mr-2"></i>Jeu en Java
-                                </h4>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow line-clamp-2">Développement d'un jeu de plateau avec interface graphique JavaFX.</p>
-                                <div class="flex flex-wrap gap-2 mt-auto">
-                                    <span class="text-xs font-mono bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded border border-green-100 dark:border-green-800 text-brand dark:text-green-400">Java</span>
-                                    <span class="text-xs font-mono bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded border border-green-100 dark:border-green-800 text-brand dark:text-green-400">JavaFX</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </details>
 
-                <details data-aos="fade-up" data-aos-delay="200" class="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors duration-300">
-                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
-                        <span class="text-gray-900 dark:text-white">2. Optimiser : Optimiser des applications informatiques</span>
-                        <i class="fa-solid fa-chevron-down text-brand dark:text-green-400 transition-transform duration-300 group-open:rotate-180"></i>
-                    </summary>
-                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-4 text-gray-600 dark:text-gray-300">
-                        <p class="mb-4">Analyse de la complexité algorithmique, choix des structures de données adaptées.</p>
-                    </div>
-                </details>
+            <div id="competences-container" class="space-y-6"></div>
 
-                <details data-aos="fade-up" data-aos-delay="300" class="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors duration-300">
-                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
-                        <span class="text-gray-900 dark:text-white">3. Administrer : Administrer des systèmes informatiques communicants</span>
-                        <i class="fa-solid fa-chevron-down text-brand dark:text-green-400 transition-transform duration-300 group-open:rotate-180"></i>
-                    </summary>
-                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-4 text-gray-600 dark:text-gray-300">
-                        <p class="mb-4">Configuration de réseaux, déploiement de services, utilisation de Linux.</p>
-                    </div>
-                </details>
 
-                <details data-aos="fade-up" data-aos-delay="400" class="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors duration-300">
-                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
-                        <span class="text-gray-900 dark:text-white">4. Gérer : Gérer des données de l'information</span>
-                        <i class="fa-solid fa-chevron-down text-brand dark:text-green-400 transition-transform duration-300 group-open:rotate-180"></i>
-                    </summary>
-                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-4 text-gray-600 dark:text-gray-300">
-                        <p class="mb-4">Conception, création et interrogation de bases de données.</p>
-                    </div>
-                </details>
-
-                <details data-aos="fade-up" data-aos-delay="500" class="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors duration-300">
-                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
-                        <span class="text-gray-900 dark:text-white">5. Conduire : Conduire un projet</span>
-                        <i class="fa-solid fa-chevron-down text-brand dark:text-green-400 transition-transform duration-300 group-open:rotate-180"></i>
-                    </summary>
-                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-4 text-gray-600 dark:text-gray-300">
-                        <p class="mb-4">Méthodologies agiles, gestion du cycle de vie logiciel, expression des besoins.</p>
-                    </div>
-                </details>
-
-                <details data-aos="fade-up" data-aos-delay="600" class="group bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 cursor-pointer transition-colors duration-300">
-                    <summary class="flex justify-between items-center font-semibold text-xl list-none">
-                        <span class="text-gray-900 dark:text-white">6. Collaborer : Travailler dans une équipe informatique</span>
-                        <i class="fa-solid fa-chevron-down text-brand dark:text-green-400 transition-transform duration-300 group-open:rotate-180"></i>
-                    </summary>
-                    <div class="mt-6 border-t border-gray-100 dark:border-gray-700 pt-4 text-gray-600 dark:text-gray-300">
-                        <p class="mb-4">Utilisation de Git/GitHub, communication professionnelle, intégration dans une équipe.</p>
-                    </div>
-                </details>
-
-            </div>
         </div>
     </section>
 
@@ -265,13 +191,32 @@
                     <i class="fa-solid fa-xmark text-xl w-6 h-6 flex items-center justify-center"></i>
                 </button>
             </div>
-            <div class="p-6 sm:p-8 overflow-y-auto">
+            <div class="p-6 sm:p-8 overflow-y-auto">  
+                <div id="modalCarouselWrapper" class="relative mb-6 hidden group/carousel">
+                    <button onclick="scrollCarousel(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white w-8 h-8 rounded-full flex items-center justify-center z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <div id="modalImages" class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-4 pb-2">
+                        </div>
+                    <button onclick="scrollCarousel(1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/90 text-white w-8 h-8 rounded-full flex items-center justify-center z-10 opacity-0 group-hover/carousel:opacity-100 transition-opacity">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
                 <p id="modalDesc" class="text-gray-600 dark:text-gray-300 leading-relaxed"></p>
             </div>
             <div class="p-6 sm:p-8 bg-gray-50 dark:bg-gray-900 border-t border-gray-100 dark:border-gray-700 mt-auto">
                 <a id="modalLink" href="#" target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-brand dark:bg-green-600 hover:bg-green-800 dark:hover:bg-green-500 transition">
                     Voir le code source <i class="fa-solid fa-arrow-right ml-2"></i>
                 </a>
+            </div>
+            <div id="lightbox" class="fixed inset-0 z-[200] flex items-center justify-center p-4 opacity-0 invisible transition-all duration-300">
+                <div class="absolute inset-0 bg-black/95 cursor-pointer" onclick="closeLightbox()"></div>
+                
+                <img id="lightboxImage" src="" alt="Image en grand" class="relative max-w-full max-h-full rounded-lg shadow-2xl transform scale-95 transition-transform duration-300">
+                
+                <button onclick="closeLightbox()" class="absolute top-4 right-4 sm:top-8 sm:right-8 text-white hover:text-gray-300 text-3xl p-2 z-[210] transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -280,7 +225,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
-    <script src="projets.js"></script>
+    <script>
+        window.portfolioData = [];
+    </script>
+
+    <script src="projets/c1_realiser.js"></script>
+    <script src="projets/c2_optimiser.js"></script>
+    <script src="projets/c3_administrer.js"></script>
+    <script src="projets/c4_gerer.js"></script>
+    <script src="projets/c5_conduire.js"></script>
+    <script src="projets/c6_collaborer.js"></script>
     <script src="main.js"></script>
     <script src="animations.js"></script>
 
