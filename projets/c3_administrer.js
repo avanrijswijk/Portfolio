@@ -23,7 +23,7 @@ window.portfolioData.push({
                 <strong>Livrables :</strong><br> Non renseigné.<br><br>
                 
                 <strong>Compétences et AC (Apprentissage Critiques) démontrées :</strong><br><br> 
-                -  <br><br>
+                – AC26.01 | Comprendre la diversité, la structure et la dimension de l’informatique dans une organisation (ESN, DSI,...)  <br><br>
             `,
             lien: "https://github.com/avanrijswijk"
         },

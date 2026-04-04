@@ -18,12 +18,13 @@ window.portfolioData.push({
             descriptionLongue: `
                 <strong>Description :</strong><br> Au cours de ce projet, j'ai traité et visualisé les données issues d'un questionnaire en ligne pour permettre au créateur d'avoir une meilleure compréhension des réponses. Les données ont été analysées et représentées graphiquement à l'aide de bibliothèques comme Chart.js et WordCloud.js<br><br>
                 
-                <strong>Rôle personnel :</strong><br> <br><br>
+                <strong>Rôle personnel :</strong><br> Je me suis chargé de l'implémentation des graphiques et de l'analyse des données. J'ai rencontré certaines difficultés lors de la transmission des données, notamment au niveau de l'interprétation par les frameworks javascript.<br><br>
                 
-                <strong>Livrables :</strong><br> Non renseigné.<br><br>
+                <strong>Livrables :</strong><br> Non renseigné. (Consulter la compétence 1. Réaliser)<br><br>
                 
                 <strong>Compétences et AC (Apprentissage Critiques) démontrées :</strong><br><br> 
-                -  <br><br>
+                - Traiter des frameworks de visualisation de données<br>
+                - AC24.03 | Organiser la restitution de données à travers la programmation et la visualisation  <br><br>
             `,
             lien: "https://github.com/avanrijswijk"
         },
@@ -38,7 +39,7 @@ window.portfolioData.push({
             descriptionLongue: `
                 <strong>Description :</strong><br> Dans ce projet, j'ai extrait des données d'un fichier CSV que j'ai dû découper en plusieurs tables SQL pour les insérer dans une base de données dans une équipe de 2 personnes. J'ai aussi écrit des requêtes SQL en SQLServer pour visualiser les données et pour reproduire des graphiques données dans le sujet.<br><br>
                 
-                <strong>Rôle personnel :</strong><br> J'ai travailé en pair working pour l'extraction des données du fichier CSV et j'ai écrit des requêtes SQL.<br><br>
+                <strong>Rôle personnel :</strong><br> J'ai travaillé en pair working pour l'extraction des données du fichier CSV et j'ai écrit des requêtes SQL.<br><br>
                 
                 <strong>Livrables :</strong><br> (Voir le compte rendu dans le lien) <br><br>
                 
