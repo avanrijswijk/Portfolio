@@ -13,7 +13,7 @@ window.portfolioData.push({
             titre: "SAE A2 - Questionnaire en ligne",
             icon: "fa-code",
             tags: ['HTML', 'JavaScript', 'PHP', 'SQL', 'Bulma'],
-            images: ["data/Questionnaire en ligne - 1.png", "data/Questionnaire en ligne - 2.png", "data/Questionnaire en ligne - 3.png", "data/Questionnaire en ligne - 4.png"],
+            images: ["data/Questionnaire en ligne - 2.png", "data/Questionnaire en ligne - 3.png", "data/Questionnaire en ligne - 4.png"],
             descriptionCourte: "Questionnaire en ligne pour améliorer la communication entre élèves et enseignants.",
             descriptionLongue: `
                 <strong>Description :</strong><br> Ce projet permet la création de questionnaire en ligne afin de recueillir les réponses des utilisateurs. Ce site va également permettre d'analyser les réponses via des graphiques et des tableaux de bord détaillés.<br><br>
