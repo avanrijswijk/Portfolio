@@ -4,22 +4,28 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  isFullBleed?: boolean;
 }
 
 const {
   title = 'Adrian van Rijswijk // Portfolio BUT Informatique',
-  description = 'Portfolio technique d’Adrian van Rijswijk, étudiant en 3ème année de BUT Informatique (RACDV). Conception logicielle, architectures web et systèmes distribués.',
+  description = 'Portfolio cinématique et éditorial d’Adrian van Rijswijk, étudiant en 3ème année de BUT Informatique (RACDV). Conception logicielle, architectures web et systèmes distribués.',
+  isFullBleed = false,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="fr" class="bg-[#0a0a0a] text-[#ededed]">
+<html lang="fr" class="dark bg-[#0a0a0a] text-[#ededed]">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <meta name="author" content="Adrian van Rijswijk" />
     <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- Google Fonts Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -31,10 +37,15 @@ const {
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body class="min-h-screen bg-[#0a0a0a] text-[#ededed] antialiased selection:bg-[#ededed] selection:text-[#0a0a0a]">
-    <!-- Technical Datasheet Main Container: centered, max-w-7xl, compartmentalized borders -->
-    <div class="mx-auto max-w-7xl border-x border-neutral-800 bg-[#0a0a0a] shadow-none">
-      <slot />
-    </div>
+  <body class="min-h-screen bg-[#0a0a0a] text-[#ededed] antialiased font-mono transition-colors duration-100 overflow-x-hidden">
+    {isFullBleed ? (
+      <div class="w-full min-h-screen bg-[#0a0a0a] text-[#ededed]">
+        <slot />
+      </div>
+    ) : (
+      <div class="mx-auto max-w-7xl border-x border-[#262626] bg-[#0a0a0a] min-h-screen flex flex-col">
+        <slot />
+      </div>
+    )}
   </body>
 </html>

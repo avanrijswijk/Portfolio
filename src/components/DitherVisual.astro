@@ -1,0 +1,193 @@
+---
+// src/components/DitherVisual.astro
+---
+
+<div class="relative w-full h-[400px] sm:h-[520px] lg:h-[620px] flex items-center justify-center select-none pointer-events-auto">
+  <canvas
+    id="dither-canvas"
+    class="w-full h-full max-w-[640px] max-h-[640px] object-contain cursor-crosshair opacity-90 hover:opacity-100 transition-opacity duration-100"
+    width="480"
+    height="480"
+  ></canvas>
+  
+  <!-- Discrets repères techniques flottants -->
+  <span class="absolute top-4 right-4 font-mono text-[10px] text-muted tracking-widest select-none pointer-events-none">
+    1-BIT DITHER // INTERACTIVE MATRIX
+  </span>
+  <span class="absolute bottom-4 right-4 font-mono text-[9px] text-muted tracking-widest select-none pointer-events-none">
+    X: <span id="dither-coord-x">00</span> Y: <span id="dither-coord-y">00</span>
+  </span>
+</div>
+
+<script>
+  function initDitherCanvas() {
+    const canvas = document.getElementById('dither-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const width = 240;
+    const height = 240;
+    // Offscreen buffer for retro low-res pixel rendering
+    const offscreen = document.createElement('canvas');
+    offscreen.width = width;
+    offscreen.height = height;
+    const offCtx = offscreen.getContext('2d');
+    if (!offCtx) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetRotX = 0;
+    let targetRotY = 0;
+    let rotX = 0;
+    let rotY = 0;
+    let time = 0;
+
+    const coordX = document.getElementById('dither-coord-x');
+    const coordY = document.getElementById('dither-coord-y');
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      targetRotY = x * 2.5;
+      targetRotX = -y * 2.5;
+      if (coordX) coordX.textContent = Math.round((x + 0.5) * 100).toString().padStart(2, '0');
+      if (coordY) coordY.textContent = Math.round((y + 0.5) * 100).toString().padStart(2, '0');
+    });
+
+    // 4x4 Bayer Dithering Matrix
+    const bayer4x4 = [
+      [ 0,  8,  2, 10],
+      [12,  4, 14,  6],
+      [ 3, 11,  1,  9],
+      [15,  7, 13,  5]
+    ];
+
+    // 3D Geometric Form: Torus knot / Gyroscope rings
+    const nodes: { x: number; y: number; z: number }[] = [];
+    const numPoints = 180;
+    for (let i = 0; i < numPoints; i++) {
+      const u = (i / numPoints) * Math.PI * 4;
+      // Torus knot formula p=2, q=3
+      const r = 50 + 20 * Math.cos(1.5 * u);
+      const x = r * Math.cos(u);
+      const y = r * Math.sin(u);
+      const z = 32 * Math.sin(1.5 * u);
+      nodes.push({ x, y, z });
+    }
+
+    // Outer orbital rings
+    const ringPoints: { x: number; y: number; z: number }[] = [];
+    for (let i = 0; i < 90; i++) {
+      const a = (i / 90) * Math.PI * 2;
+      ringPoints.push({ x: 95 * Math.cos(a), y: 95 * Math.sin(a), z: 0 });
+    }
+
+    function render() {
+      time += 0.015;
+      rotX += (targetRotX - rotX) * 0.08;
+      rotY += (targetRotY - rotY) * 0.08;
+
+      // Dark terminal colors (fond noir #0a0a0a, encre blanche #ededed, accent orange #FF4F00)
+      const bgR = 10;
+      const bgG = 10;
+      const bgB = 10;
+
+      const inkR = 237;
+      const inkG = 237;
+      const inkB = 237;
+
+      const accentR = 255;
+      const accentG = 79;
+      const accentB = 0;
+
+      // Clear offscreen buffer
+      offCtx.fillStyle = `rgb(${bgR}, ${bgG}, ${bgB})`;
+      offCtx.fillRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+      const curRotX = rotX + Math.sin(time * 0.6) * 0.3;
+      const curRotY = rotY + time * 0.8;
+
+      const cosX = Math.cos(curRotX);
+      const sinX = Math.sin(curRotX);
+      const cosY = Math.cos(curRotY);
+      const sinY = Math.sin(curRotY);
+
+      // Render Torus knot points
+      const imgData = offCtx.createImageData(width, height);
+      const data = imgData.data;
+
+      // Fill background
+      for (let i = 0; i < data.length; i += 4) {
+        data[i] = bgR;
+        data[i + 1] = bgG;
+        data[i + 2] = bgB;
+        data[i + 3] = 255;
+      }
+
+      // Draw projected points with dithering shading
+      const totalPoints = [...nodes, ...ringPoints];
+      for (let i = 0; i < totalPoints.length; i++) {
+        const p = totalPoints[i];
+        // Rotate Y
+        const x1 = p.x * cosY + p.z * sinY;
+        const z1 = -p.x * sinY + p.z * cosY;
+        // Rotate X
+        const y2 = p.y * cosX - z1 * sinX;
+        const z2 = p.y * sinX + z1 * cosX;
+
+        // Perspective projection
+        const fov = 260;
+        const scale = fov / (fov + z2 + 80);
+        const px = Math.round(cx + x1 * scale);
+        const py = Math.round(cy + y2 * scale);
+
+        // Lighting intensity based on depth Z
+        const intensity = Math.max(0, Math.min(1, (z2 + 100) / 180));
+
+        // Draw a small 2x2 or 3x3 pixel block with dithered pattern
+        const isAccent = i % 15 === 0; // Accent dots
+        const dotSize = scale > 1.1 ? 3 : 2;
+
+        for (let dx = -1; dx < dotSize; dx++) {
+          for (let dy = -1; dy < dotSize; dy++) {
+            const sx = px + dx;
+            const sy = py + dy;
+            if (sx >= 0 && sx < width && sy >= 0 && sy < height) {
+              const bayerVal = bayer4x4[((sy % 4) + 4) % 4][((sx % 4) + 4) % 4] / 16;
+              if (intensity > bayerVal * 0.75) {
+                const idx = (sy * width + sx) * 4;
+                if (isAccent) {
+                  data[idx] = accentR;
+                  data[idx + 1] = accentG;
+                  data[idx + 2] = accentB;
+                } else {
+                  data[idx] = inkR;
+                  data[idx + 1] = inkG;
+                  data[idx + 2] = inkB;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      offCtx.putImageData(imgData, 0, 0);
+
+      // Scale up offscreen buffer with nearest-neighbor crispness
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(offscreen, 0, 0, canvas.width, canvas.height);
+
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  document.addEventListener('DOMContentLoaded', initDitherCanvas);
+  initDitherCanvas();
+</script>
+

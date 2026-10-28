@@ -1,40 +1,39 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
   theme: {
+    borderRadius: {
+      none: '0',
+      DEFAULT: '0',
+      sm: '0',
+      md: '0',
+      lg: '0',
+      xl: '0',
+      '2xl': '0',
+      full: '0',
+    },
+    boxShadow: {
+      none: 'none',
+      DEFAULT: 'none',
+    },
     extend: {
       colors: {
-        datasheet: {
-          bg: '#0a0a0a',
-          card: '#111111',
-          surface: '#171717',
-          border: '#262626',
-          'border-muted': '#1f1f1f',
-          text: '#ededed',
-          muted: '#8c8c8c',
-          accent: '#22c55e', // Subtle green for online/active status
-        },
+        paper: 'var(--color-bg)',
+        subtle: 'var(--color-bg-subtle)',
+        ink: 'var(--color-ink)',
+        muted: 'var(--color-muted)',
+        accent: 'var(--color-accent)', // #FF4F00 (Orange International)
+        border: 'var(--color-border)',
       },
       fontFamily: {
-        mono: [
-          'JetBrains Mono',
-          'Geist Mono',
-          'Fira Code',
-          'ui-monospace',
-          'SFMono-Regular',
-          'Menlo',
-          'Monaco',
-          'Consolas',
-          'monospace',
-        ],
-        sans: [
-          'Inter',
-          '-apple-system',
-          'BlinkMacSystemFont',
-          'Segoe UI',
-          'Roboto',
-          'sans-serif',
-        ],
+        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        mono: ['"JetBrains Mono"', '"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"JetBrains Mono"', '"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+      },
+      transitionDuration: {
+        DEFAULT: '100ms',
+        100: '100ms',
       },
     },
   },
