@@ -23,7 +23,7 @@ export default {
         subtle: 'var(--color-bg-subtle)',
         ink: 'var(--color-ink)',
         muted: 'var(--color-muted)',
-        accent: 'var(--color-accent)', // #FF4F00 (Orange International)
+        accent: 'var(--color-accent)', // #0BD8B6 (Turquoise)
         border: 'var(--color-border)',
       },
       fontFamily: {

@@ -38,6 +38,12 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body class="min-h-screen bg-[#0a0a0a] text-[#ededed] antialiased font-mono transition-colors duration-100 overflow-x-hidden">
+    <!-- Bordure fine turquoise (#0BD8B6) encadrant l'ensemble du site -->
+    <div
+      class="fixed inset-1 pointer-events-none z-[100] border border-[#0BD8B6] select-none"
+      aria-hidden="true"
+    ></div>
+
     {isFullBleed ? (
       <div class="w-full min-h-screen bg-[#0a0a0a] text-[#ededed]">
         <slot />

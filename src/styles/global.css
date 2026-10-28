@@ -7,7 +7,7 @@
 @layer base {
   /* ========================================================
      THEME NOIR / TERMINAL (PAR DÉFAUT)
-     Fond noir profond, typographie haute précision
+     Fond noir profond, typographie haute précision & Accent Turquoise #0BD8B6
      ======================================================== */
   :root {
     --color-bg: #0a0a0a;
@@ -15,7 +15,7 @@
     --color-ink: #ededed;
     --color-border: #262626;
     --color-muted: #888888;
-    --color-accent: #FF4F00;
+    --color-accent: #0BD8B6;
   }
 
   html.dark {
@@ -24,7 +24,7 @@
     --color-ink: #ededed;
     --color-border: #262626;
     --color-muted: #888888;
-    --color-accent: #FF4F00;
+    --color-accent: #0BD8B6;
   }
 
   html {
