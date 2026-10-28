@@ -1,0 +1,130 @@
+---
+import { PROFILE } from '../data/profile';
+---
+
+<footer id="contact" class="bg-[#0a0a0a]">
+  <!-- En-tête de section Contact avec espacement généreux -->
+  <div class="px-8 sm:px-12 py-6 border-b border-neutral-800 bg-neutral-950 flex items-center justify-between font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-100">
+    <div class="flex items-center gap-3">
+      <span class="text-neutral-500">03 //</span>
+      <h2>CONTACT & COORDONNÉES</h2>
+    </div>
+    <span class="text-emerald-400 text-xs flex items-center gap-2">
+      <span class="w-2 h-2 bg-emerald-500"></span>
+      CANAL DE COMMUNICATION OUVERT
+    </span>
+  </div>
+
+  <!-- Grille finale en bas de page (3 cellules sur desktop, seamless 1px borders via gap 1px) -->
+  <div class="grid grid-cols-1 md:grid-cols-3 bg-neutral-800 gap-[1px]">
+    <!-- Cellule 1 : Appel à l'action Email -->
+    <div class="p-8 sm:p-10 bg-[#0a0a0a] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-neutral-800 font-mono text-xs text-neutral-500 uppercase">
+          <span>Prise de contact</span>
+          <span>[DIRECT_MAIL]</span>
+        </div>
+        <h3 class="font-mono text-base font-bold uppercase text-neutral-100 mb-3">
+          Envoyer un message
+        </h3>
+        <p class="text-xs sm:text-sm text-neutral-400 font-sans leading-relaxed mb-8">
+          Disponible pour échanger autour d’une opportunité de stage de fin d’études, d’un projet logiciel ou d’une collaboration technique.
+        </p>
+      </div>
+
+      <div class="space-y-4 font-mono text-xs">
+        <div>
+          <span class="text-[10px] uppercase text-neutral-500 block mb-1">Email Personnel</span>
+          <a
+            href={`mailto:${PROFILE.contacts.email}`}
+            class="text-neutral-200 hover:text-emerald-400 transition-colors block truncate font-medium"
+          >
+            {PROFILE.contacts.email}
+          </a>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase text-neutral-500 block mb-1">Email Universitaire</span>
+          <a
+            href={`mailto:${PROFILE.contacts.studentEmail}`}
+            class="text-neutral-400 hover:text-white transition-colors block truncate"
+          >
+            {PROFILE.contacts.studentEmail}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cellule 2 : Réseaux & Plateformes -->
+    <div class="p-8 sm:p-10 bg-[#0a0a0a] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-neutral-800 font-mono text-xs text-neutral-500 uppercase">
+          <span>Réseaux & Dépôts</span>
+          <span>[EXTERNAL_LINKS]</span>
+        </div>
+        <h3 class="font-mono text-base font-bold uppercase text-neutral-100 mb-3">
+          Profils Techniques
+        </h3>
+        <p class="text-xs sm:text-sm text-neutral-400 font-sans leading-relaxed mb-8">
+          Consultez l’ensemble de mes dépôts publics, projets et mon parcours académique et professionnel.
+        </p>
+      </div>
+
+      <div class="space-y-3.5 font-mono text-xs">
+        <a
+          href={PROFILE.contacts.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="p-4 border border-neutral-800 hover:border-neutral-500 hover:bg-neutral-900 transition-colors flex items-center justify-between group"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="text-neutral-300 group-hover:text-white font-medium">GitHub</span>
+            <span class="text-neutral-600">//</span>
+            <span class="text-neutral-400 text-xs truncate">{PROFILE.contacts.githubHandle}</span>
+          </div>
+          <span class="text-neutral-500 group-hover:text-white transition-colors">↗</span>
+        </a>
+
+        <a
+          href={PROFILE.contacts.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="p-4 border border-neutral-800 hover:border-neutral-500 hover:bg-neutral-900 transition-colors flex items-center justify-between group"
+        >
+          <div class="flex items-center gap-2.5">
+            <span class="text-neutral-300 group-hover:text-white font-medium">LinkedIn</span>
+            <span class="text-neutral-600">//</span>
+            <span class="text-neutral-400 text-xs truncate">{PROFILE.contacts.linkedinHandle}</span>
+          </div>
+          <span class="text-neutral-500 group-hover:text-white transition-colors">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cellule 3 : Année, Fiche technique & Crédits -->
+    <div class="p-8 sm:p-10 bg-[#0a0a0a] flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-neutral-800 font-mono text-xs text-neutral-500 uppercase">
+          <span>Spécifications Fiche</span>
+          <span>[SYSTEM_METRICS]</span>
+        </div>
+        <h3 class="font-mono text-base font-bold uppercase text-neutral-100 mb-3">
+          Mentions & Données
+        </h3>
+        <div class="space-y-2 font-mono text-xs text-neutral-400">
+          <p><span class="text-neutral-600">PROPRIÉTAIRE :</span> {PROFILE.fullName}</p>
+          <p><span class="text-neutral-600">FORMATION :</span> BUT 3 INFORMATIQUE (RACDV)</p>
+          <p><span class="text-neutral-600">FRAMEWORK :</span> ASTRO + TYPESCRIPT + TAILWIND</p>
+          <p><span class="text-neutral-600">ESTHÉTIQUE :</span> TECHNICAL DATASHEET // GRID</p>
+          <p class="text-neutral-500 text-[11px] pt-1.5">
+            * Direction artistique "1-bit dither" en préparation (phase 2).
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 mt-8 border-t border-neutral-800/80 flex items-center justify-between font-mono text-xs text-neutral-500">
+        <span>© 2026 // ADRIAN VAN RIJSWIJK</span>
+        <a href="#accueil" class="hover:text-neutral-200 transition-colors">RETOUR HAUT ↑</a>
+      </div>
+    </div>
+  </div>
+</footer>

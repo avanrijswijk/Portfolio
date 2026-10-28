@@ -1,0 +1,227 @@
+---
+import { PROJECTS, PROJECT_CATEGORIES } from '../data/projects';
+---
+
+<section id="projets" class="border-b border-neutral-800 bg-[#0a0a0a]">
+  <!-- Barre d'en-tête de section -->
+  <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between border-b border-neutral-800 bg-neutral-950">
+    <!-- Titre à gauche -->
+    <div class="flex items-center gap-3 px-6 py-4 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-100">
+      <span class="text-neutral-500">01 //</span>
+      <h2>PROJETS SÉLECTIONNÉS</h2>
+      <span id="projects-count-badge" class="ml-2 px-2 py-0.5 border border-neutral-800 text-[10px] text-neutral-400 font-normal">
+        {PROJECTS.length} PROJETS
+      </span>
+    </div>
+
+    <!-- Barre de boutons de filtres par catégorie à droite -->
+    <div
+      class="flex items-stretch border-t lg:border-t-0 lg:border-l border-neutral-800 divide-x divide-neutral-800 overflow-x-auto font-mono text-xs shrink-0"
+      role="tablist"
+      aria-label="Filtres par catégorie de projet"
+    >
+      {PROJECT_CATEGORIES.map((category, idx) => (
+        <button
+          type="button"
+          data-category-filter={category}
+          class={`filter-btn px-4 py-3 transition-colors uppercase tracking-wider whitespace-nowrap cursor-pointer ${
+            idx === 0
+              ? 'active bg-neutral-100 text-neutral-950 font-bold'
+              : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-900 font-medium'
+          }`}
+          role="tab"
+          aria-selected={idx === 0 ? 'true' : 'false'}
+        >
+          {category}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Grille de projets (2 à 3 colonnes sur desktop, gestion des bordures sans doublon via gap 1px) -->
+  <div
+    id="projects-grid"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-neutral-800 gap-[1px]"
+  >
+    {PROJECTS.map((project) => (
+      <article
+        data-project-card
+        data-category={project.category}
+        class="project-card flex flex-col justify-between bg-[#0a0a0a] hover:bg-[#0f0f0f] transition-colors p-0 group"
+      >
+        <!-- En-tête de cellule : Numéro d'index + Année + Catégorie -->
+        <div class="p-4 border-b border-neutral-800 flex items-center justify-between font-mono text-xs text-neutral-400 bg-neutral-950/50">
+          <div class="flex items-center gap-2">
+            <span class="text-neutral-100 font-semibold">{project.index}</span>
+            <span class="text-neutral-600">//</span>
+            <span class="text-neutral-400">{project.year}</span>
+          </div>
+          <span class="px-2 py-0.5 border border-neutral-800 text-[10px] uppercase text-neutral-400">
+            {project.category}
+          </span>
+        </div>
+
+        <!-- Zone d'image : Conteneur ratio 16/9 avec placeholder ou image projet -->
+        <div class="aspect-video w-full bg-neutral-950 border-b border-neutral-800 relative flex items-center justify-center overflow-hidden">
+          {project.image ? (
+            <img
+              src={project.image}
+              alt={`Aperçu du projet ${project.title}`}
+              class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100 transition-all duration-300"
+              loading="lazy"
+            />
+          ) : (
+            <div class="w-full h-full flex flex-col items-center justify-center p-4 border border-dashed border-neutral-800/80 m-2 bg-neutral-900/30">
+              <span class="font-mono text-xs uppercase tracking-wider text-neutral-500">
+                [APERÇU PROJET]
+              </span>
+              <span class="font-mono text-[10px] text-neutral-600 mt-1">
+                RATIO 16:9 // NO_CAPTURE
+              </span>
+            </div>
+          )}
+          <span class="absolute top-2 right-2 px-1.5 py-0.5 bg-neutral-950/90 font-mono text-[9px] text-neutral-400 border border-neutral-800">
+            SRC: {project.index}
+          </span>
+        </div>
+
+        <!-- Corps : Titre du projet, description axée sur la problématique technique -->
+        <div class="p-5 grow flex flex-col">
+          <h3 class="font-mono font-bold text-base text-neutral-100 mb-2 group-hover:text-white transition-colors">
+            {project.title}
+          </h3>
+
+          <p class="text-xs text-neutral-300 font-medium mb-3">
+            {project.shortDescription}
+          </p>
+
+          <div class="mt-auto pt-2 border-t border-neutral-800/60">
+            <p class="text-[11px] font-mono text-neutral-500 leading-relaxed">
+              <strong class="text-neutral-400 font-semibold uppercase text-[10px] block mb-1">
+                Problématique technique :
+              </strong>
+              {project.technicalProblem}
+            </p>
+          </div>
+        </div>
+
+        <!-- Pied de cellule : Tags encadrés sobres + Liens (GitHub, Live Demo) -->
+        <div class="p-4 border-t border-neutral-800 bg-neutral-950/40 flex flex-col gap-3">
+          <!-- Tags techniques encadrés -->
+          <div class="flex flex-wrap gap-1.5" aria-label="Technologies utilisées">
+            {project.tags.map((tag) => (
+              <span class="px-2 py-0.5 border border-neutral-800 font-mono text-[10px] text-neutral-400 uppercase tracking-tight bg-neutral-900/50">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          <!-- Liens d'action -->
+          <div class="flex items-center justify-between pt-2 border-t border-neutral-800/60 font-mono text-xs">
+            {project.githubUrl ? (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-neutral-400 hover:text-white transition-colors inline-flex items-center gap-1 group/link"
+              >
+                <span>GitHub</span>
+                <span class="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform">↗</span>
+              </a>
+            ) : (
+              <span class="text-neutral-600 text-[11px]">[CODE PRIVÉ]</span>
+            )}
+
+            {project.demoUrl ? (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-neutral-300 hover:text-emerald-400 transition-colors inline-flex items-center gap-1 group/link"
+              >
+                <span>Live Demo</span>
+                <span class="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform">↗</span>
+              </a>
+            ) : (
+              <span class="text-neutral-600 text-[10px] uppercase font-mono">
+                {project.id}
+              </span>
+            )}
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <!-- Message si aucun projet ne correspond (sécurité) -->
+  <div
+    id="no-projects-message"
+    class="hidden p-12 text-center font-mono text-xs text-neutral-500 uppercase tracking-widest border-t border-neutral-800"
+  >
+    Aucun projet ne correspond à cette catégorie pour le moment.
+  </div>
+</section>
+
+<!-- Script de filtrage interactif client-side (performant, sans dépendance superflue) -->
+<script>
+  function setupProjectFilters() {
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const projectCards = document.querySelectorAll<HTMLElement>('[data-project-card]');
+    const countBadge = document.getElementById('projects-count-badge');
+    const noProjectsMessage = document.getElementById('no-projects-message');
+
+    if (!filterButtons.length || !projectCards.length) return;
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const selectedCategory = button.getAttribute('data-category-filter');
+        if (!selectedCategory) return;
+
+        // Mise à jour de l'état actif des boutons
+        filterButtons.forEach((btn) => {
+          btn.classList.remove('active', 'bg-neutral-100', 'text-neutral-950', 'font-bold');
+          btn.classList.add('text-neutral-400', 'hover:text-neutral-100', 'hover:bg-neutral-900', 'font-medium');
+          btn.setAttribute('aria-selected', 'false');
+        });
+
+        button.classList.add('active', 'bg-neutral-100', 'text-neutral-950', 'font-bold');
+        button.classList.remove('text-neutral-400', 'hover:text-neutral-100', 'hover:bg-neutral-900', 'font-medium');
+        button.setAttribute('aria-selected', 'true');
+
+        // Filtrage des cartes
+        let visibleCount = 0;
+        projectCards.forEach((card) => {
+          const cardCategory = card.getAttribute('data-category');
+          const shouldShow = selectedCategory === 'Tous' || cardCategory === selectedCategory;
+
+          if (shouldShow) {
+            card.classList.remove('hidden');
+            card.classList.add('flex');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+            card.classList.remove('flex');
+          }
+        });
+
+        // Mise à jour du compteur
+        if (countBadge) {
+          countBadge.textContent = `${visibleCount} PROJET${visibleCount > 1 ? 'S' : ''}`;
+        }
+
+        // Affichage du message si vide
+        if (noProjectsMessage) {
+          if (visibleCount === 0) {
+            noProjectsMessage.classList.remove('hidden');
+          } else {
+            noProjectsMessage.classList.add('hidden');
+          }
+        }
+      });
+    });
+  }
+
+  // Initialisation au chargement du DOM et compatible ViewTransitions si activé
+  document.addEventListener('DOMContentLoaded', setupProjectFilters);
+  setupProjectFilters();
+</script>

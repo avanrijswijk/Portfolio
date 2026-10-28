@@ -1,0 +1,68 @@
+---
+import { PROFILE } from '../data/profile';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = '/' } = Astro.props;
+---
+
+<header class="sticky top-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-neutral-800">
+  <div class="flex flex-col md:flex-row md:items-stretch w-full">
+    <!-- Cellule 1: Nom & Prénom + Titre -->
+    <div class="flex items-center justify-between md:justify-start px-6 py-3.5 md:py-4 border-b md:border-b-0 md:border-r border-neutral-800 font-mono text-xs tracking-tight shrink-0">
+      <a href="/" class="flex items-center gap-2.5 hover:text-white transition-colors group">
+        <span class="w-2.5 h-2.5 bg-neutral-100 group-hover:bg-emerald-400 transition-colors"></span>
+        <span class="font-bold text-neutral-100 uppercase tracking-wider">{PROFILE.fullName}</span>
+        <span class="text-neutral-500 font-normal hidden sm:inline">{PROFILE.role}</span>
+      </a>
+      <span class="md:hidden text-[10px] text-neutral-500 font-mono">REV:2026</span>
+    </div>
+
+    <!-- Cellule 2: Indicateur de statut -->
+    <div class="flex items-center px-6 py-2.5 md:py-4 border-b md:border-b-0 md:border-r border-neutral-800 text-xs font-mono text-neutral-300 grow overflow-hidden">
+      <div class="flex items-center gap-2.5 truncate">
+        <span class="relative flex h-2 w-2 shrink-0">
+          <span class="animate-ping absolute inline-flex h-full w-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 bg-emerald-500"></span>
+        </span>
+        <span class="tracking-wide uppercase truncate text-[11px] sm:text-xs text-neutral-300 font-medium">
+          {PROFILE.statusText}
+        </span>
+      </div>
+    </div>
+
+    <!-- Cellule 3: Liens d'ancrage rapides & navigation -->
+    <nav class="flex items-stretch divide-x divide-neutral-800 font-mono text-xs shrink-0 self-end md:self-auto w-full md:w-auto justify-end bg-[#0a0a0a]" aria-label="Navigation principale">
+      <a
+        href="/"
+        class={`px-5 py-3 md:py-4 transition-colors flex items-center justify-center flex-1 md:flex-initial ${
+          currentPath === '/' ? 'text-white bg-neutral-900/80 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900'
+        }`}
+      >
+        ACCUEIL
+      </a>
+      <a
+        href="/projets"
+        class={`px-5 py-3 md:py-4 transition-colors flex items-center justify-center flex-1 md:flex-initial ${
+          currentPath.startsWith('/projets') ? 'text-white bg-neutral-900/80 font-semibold' : 'text-neutral-400 hover:text-white hover:bg-neutral-900'
+        }`}
+      >
+        [01] PROJETS
+      </a>
+      <a
+        href="/#a-propos"
+        class="px-5 py-3 md:py-4 text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors flex items-center justify-center flex-1 md:flex-initial"
+      >
+        [02] À PROPOS
+      </a>
+      <a
+        href="/#contact"
+        class="px-5 py-3 md:py-4 text-neutral-400 hover:text-white hover:bg-neutral-900 transition-colors flex items-center justify-center flex-1 md:flex-initial"
+      >
+        [03] CONTACT
+      </a>
+    </nav>
+  </div>
+</header>

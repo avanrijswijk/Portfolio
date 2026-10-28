@@ -1,0 +1,77 @@
+# ==========================================
+# Build & Compiled Output
+# ==========================================
+dist/
+build/
+out/
+.cache/
+
+# ==========================================
+# Astro Cache & Generated Types
+# ==========================================
+.astro/
+
+# ==========================================
+# Dependencies (Toujours verrouiller via package-lock.json)
+# ==========================================
+node_modules/
+.pnp
+.pnp.js
+
+# ==========================================
+# Variables d'Environnement & Secrets
+# ==========================================
+.env
+.env.production
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# ==========================================
+# Logs & Diagnostic
+# ==========================================
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# Fichiers Système d'Exploitation (OS)
+# ==========================================
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+
+# ==========================================
+# IDEs & Éditeurs de Code
+# ==========================================
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.fleet/
+
+# VS Code (Ignorer les fichiers d'état temporaires, conserver les recommandations)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

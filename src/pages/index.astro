@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import FeaturedProjectsSection from '../components/FeaturedProjectsSection.astro';
+import AboutSection from '../components/AboutSection.astro';
+import ContactFooter from '../components/ContactFooter.astro';
+---
+
+<Layout title="Adrian van Rijswijk // Portfolio BUT Informatique">
+  <div id="accueil" class="flex flex-col">
+    <!-- Barre d'état supérieure sticky -->
+    <Header currentPath="/" />
+
+    <main>
+      <!-- Hero Section : Grille asymétrique 60/40 + Placeholder 1-Bit aéré -->
+      <Hero />
+
+      <!-- Section 01 : 3 Projets Phares + Gros bouton vers /projets -->
+      <FeaturedProjectsSection />
+
+      <!-- Section 02 : À propos & Stack technique structurée -->
+      <AboutSection />
+    </main>
+
+    <!-- Section 03 : Contact & Footer technique -->
+    <ContactFooter />
+  </div>
+</Layout>

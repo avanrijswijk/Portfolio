@@ -1,0 +1,136 @@
+---
+import { PROFILE } from '../data/profile';
+---
+
+<section id="a-propos" class="border-b border-neutral-800 bg-[#0a0a0a]">
+  <!-- En-tête de section -->
+  <div class="px-8 sm:px-12 py-6 border-b border-neutral-800 bg-neutral-950 flex items-center justify-between font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-neutral-100">
+    <div class="flex items-center gap-3">
+      <span class="text-neutral-500">02 //</span>
+      <h2>À PROPOS & STACK TECHNIQUE</h2>
+    </div>
+    <span class="text-neutral-500 text-xs hidden sm:inline">PROFIL // BUT3 RACDV</span>
+  </div>
+
+  <!-- Grille 50% / 50% sur desktop avec espacements confortables -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-neutral-800">
+    <!-- Colonne gauche : Biographie & Parcours -->
+    <div class="p-8 sm:p-12 lg:p-16 flex flex-col justify-between bg-[#0a0a0a]">
+      <div class="space-y-10">
+        <!-- Emplacement Portrait Photo + Identité -->
+        <div class="flex flex-col sm:flex-row items-start gap-8 pb-10 border-b border-neutral-800">
+          <!-- Placeholder Portrait 1:1 -->
+          <div class="w-32 h-32 sm:w-40 sm:h-40 shrink-0 border border-dashed border-neutral-700 bg-neutral-900/50 flex flex-col items-center justify-center p-3 text-center relative select-none">
+            <span class="font-mono text-xs text-neutral-300 uppercase tracking-widest font-bold">
+              [PLACEHOLDER
+              <br />
+              PORTRAIT]
+            </span>
+            <span class="font-mono text-[10px] text-neutral-600 mt-2">1:1 RATIO</span>
+            <span class="absolute top-1.5 left-1.5 font-mono text-[9px] text-neutral-600">+</span>
+            <span class="absolute bottom-1.5 right-1.5 font-mono text-[9px] text-neutral-600">+</span>
+          </div>
+
+          <!-- Synthèse profil -->
+          <div class="flex flex-col justify-center">
+            <span class="font-mono text-xs text-neutral-500 uppercase tracking-wider">Profil Candidat</span>
+            <h3 class="font-mono text-2xl font-bold text-neutral-100 uppercase tracking-tight mt-1.5">
+              {PROFILE.fullName}
+            </h3>
+            <p class="font-mono text-xs text-neutral-400 mt-1.5">
+              Étudiant en 3ème année de BUT Informatique
+            </p>
+            <div class="mt-4 flex items-center gap-2.5">
+              <span class="inline-block w-2.5 h-2.5 bg-emerald-500"></span>
+              <span class="font-mono text-xs text-emerald-400 uppercase font-semibold">
+                Disponible pour stage (12-16 sem.)
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Parcours académique -->
+        <div>
+          <h4 class="font-mono text-xs uppercase tracking-wider text-neutral-400 font-bold mb-4 flex items-center gap-2">
+            <span class="text-neutral-600">[01]</span>
+            <span>Parcours Académique & Contexte</span>
+          </h4>
+          <div class="space-y-3 text-sm sm:text-base text-neutral-300 font-sans leading-relaxed">
+            {PROFILE.academicPath.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+
+        <!-- Philosophie de code -->
+        <div>
+          <h4 class="font-mono text-xs uppercase tracking-wider text-neutral-400 font-bold mb-4 flex items-center gap-2">
+            <span class="text-neutral-600">[02]</span>
+            <span>Philosophie & Rigueur Technique</span>
+          </h4>
+          <p class="text-sm sm:text-base text-neutral-300 font-sans leading-relaxed">
+            {PROFILE.codePhilosophy}
+          </p>
+        </div>
+
+        <!-- Ce que je recherche -->
+        <div class="p-6 border border-neutral-800 bg-neutral-950/70 font-mono">
+          <h4 class="text-xs uppercase tracking-wider text-neutral-200 font-bold mb-2.5 flex items-center gap-2">
+            <span class="text-emerald-500">[!]</span>
+            <span>Objectif & Recherche de Stage</span>
+          </h4>
+          <p class="text-xs sm:text-sm text-neutral-400 leading-relaxed font-sans">
+            {PROFILE.lookingFor}
+          </p>
+        </div>
+      </div>
+
+      <!-- Pied de colonne bio -->
+      <div class="pt-8 mt-12 border-t border-neutral-800 flex items-center justify-between font-mono text-xs text-neutral-500">
+        <span>CURRICULUM // REV_2026</span>
+        <span>IUT LIMOUSIN // UNIV LIMOGES</span>
+      </div>
+    </div>
+
+    <!-- Colonne droite : Compétences & Stack (sans barres de progression, purement structuré) -->
+    <div class="flex flex-col bg-[#0a0a0a]">
+      <div class="p-6 px-8 sm:px-12 border-b border-neutral-800 bg-neutral-950/80 font-mono text-xs uppercase tracking-wider text-neutral-400 flex justify-between items-center">
+        <span>Spécifications de la Stack Technique</span>
+        <span class="text-[10px] text-neutral-600">STRUCTURED MATRIX</span>
+      </div>
+
+      <!-- Grille des 4 groupes de compétences -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 bg-neutral-800 gap-[1px] grow">
+        {PROFILE.skillGroups.map((group) => (
+          <div class="p-8 sm:p-10 bg-[#0a0a0a] flex flex-col justify-between">
+            <div>
+              <!-- En-tête du groupe -->
+              <div class="flex items-center justify-between pb-4 mb-6 border-b border-neutral-800 font-mono">
+                <span class="text-sm font-bold uppercase tracking-wider text-neutral-200">
+                  {group.title}
+                </span>
+                <span class="text-xs text-neutral-500">[{group.index}]</span>
+              </div>
+
+              <!-- Liste des technologies -->
+              <ul class="space-y-3 font-mono text-xs text-neutral-300" role="list">
+                {group.items.map((item) => (
+                  <li class="flex items-center gap-3">
+                    <span class="w-1.5 h-1.5 bg-neutral-600 shrink-0"></span>
+                    <span class="hover:text-white transition-colors">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Footer sous-cellule -->
+            <div class="mt-8 pt-4 border-t border-neutral-900 font-mono text-[11px] text-neutral-600 flex justify-between">
+              <span>{group.items.length} TECHNOLOGIES</span>
+              <span>VERIFIED</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
