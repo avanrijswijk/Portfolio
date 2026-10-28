@@ -1,6 +1,6 @@
 ---
 // src/pages/index.astro
-// Diaporama Plein Écran (3 Slides Fluides) : Hero / 3 Projets Phares / Profil & Contacts
+// Diaporama Plein Écran (3 Slides Fluides) avec Layout Adaptatif et Safe Zones Anti-Collision
 import Layout from '../layouts/Layout.astro';
 import SlideshowHUD from '../components/SlideshowHUD.astro';
 import DitherVisual from '../components/DitherVisual.astro';
@@ -12,7 +12,7 @@ const featuredProjects = getFeaturedProjects();
 
 <Layout isFullBleed={true} title="Adrian van Rijswijk // Portfolio BUT Informatique">
   <div class="relative w-screen h-screen overflow-hidden bg-[#0a0a0a] text-[#ededed]">
-    <!-- Navigation HUD fixe aux 4 coins (sans barre de fond) -->
+    <!-- Navigation HUD fixe en bordure avec barres de protection et safe zones -->
     <SlideshowHUD />
 
     <!-- Conteneur des 3 diapositives plein écran avec défilement fluide et snap -->
@@ -29,7 +29,7 @@ const featuredProjects = getFeaturedProjects();
         id="slide-1"
         data-slide-index="1"
         data-slide-title="01 / 03 — INTRODUCTION"
-        class="snap-slide h-screen w-screen flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 py-16 sm:py-20 relative select-none"
+        class="snap-slide min-h-screen w-screen flex flex-col justify-center px-6 sm:px-12 md:px-16 lg:px-24 pt-20 pb-20 sm:pt-24 sm:pb-24 lg:pt-28 lg:pb-28 relative select-none"
       >
         <div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           <!-- Colonne Gauche : Typographie éditoriale & Actions -->
@@ -45,7 +45,7 @@ const featuredProjects = getFeaturedProjects();
             </div>
 
             <!-- Nom en très grande taille Serif éditorial -->
-            <h1 class="slide-title font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight text-[#ededed] leading-[0.92] mb-6">
+            <h1 class="slide-title font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#ededed] leading-[0.95] mb-6">
               Adrian van<br class="hidden sm:inline" /> Rijswijk
             </h1>
 
@@ -89,23 +89,23 @@ const featuredProjects = getFeaturedProjects();
       </section>
 
       <!-- ========================================================
-           DIAPO 02 : LES 3 PROJETS PHARES SUR UNE MÊME DIAPO + GROS BOUTON
+           DIAPO 02 : LES 3 PROJETS PHARES RÉUNIS + GROS BOUTON
            ======================================================== -->
       <section
         id="slide-2"
         data-slide-index="2"
         data-slide-title="02 / 03 — PROJETS PHARES"
-        class="snap-slide min-h-screen lg:h-screen w-screen flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-16 relative overflow-y-auto lg:overflow-hidden select-none"
+        class="snap-slide min-h-screen w-screen flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 pt-20 pb-20 sm:pt-24 sm:pb-24 lg:pt-28 lg:pb-28 relative select-none"
       >
         <!-- Grand filigrane d'index en arrière-plan -->
         <span
-          class="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 font-mono text-[140px] sm:text-[220px] lg:text-[280px] font-bold opacity-[0.04] select-none pointer-events-none text-white"
+          class="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 font-mono text-[140px] sm:text-[220px] lg:text-[280px] font-bold opacity-[0.03] select-none pointer-events-none text-white"
           aria-hidden="true"
         >
           002
         </span>
 
-        <div class="w-full max-w-7xl mx-auto flex flex-col justify-between h-full max-h-[90vh] z-10 space-y-4 sm:space-y-6">
+        <div class="w-full max-w-7xl mx-auto flex flex-col justify-center z-10 space-y-5 sm:space-y-6">
           <!-- En-tête de la diapo -->
           <div>
             <div class="flex items-center gap-3 font-mono text-xs mb-2">
@@ -122,8 +122,8 @@ const featuredProjects = getFeaturedProjects();
             </h2>
           </div>
 
-          <!-- Grille des 3 projets phares (3 colonnes sur desktop) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5 lg:gap-5 items-stretch">
+          <!-- Grille des 3 projets phares (3 colonnes équilibrées) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 items-stretch">
             {featuredProjects.map((project) => (
               <article class="border border-[#262626] bg-[#0c0c0c] hover:bg-[#111111] hover:border-accent/80 transition-colors p-4 lg:p-5 flex flex-col justify-between group">
                 <!-- En-tête de carte -->
@@ -138,7 +138,7 @@ const featuredProjects = getFeaturedProjects();
                   <!-- Zone d'aperçu visuel adapté sans déformation -->
                   <a
                     href={`/projets/${project.slug}`}
-                    class="h-28 sm:h-32 lg:h-36 w-full bg-[#060606] border border-[#1f1f1f] relative flex items-center justify-center p-2 overflow-hidden block mb-3"
+                    class="h-32 sm:h-36 lg:h-40 w-full bg-[#060606] border border-[#1f1f1f] relative flex items-center justify-center p-2 overflow-hidden block mb-3"
                     aria-label={`Voir l'étude de cas de ${project.title}`}
                   >
                     {project.slug === 'tonote-android' ? (
@@ -155,7 +155,7 @@ const featuredProjects = getFeaturedProjects();
                       </div>
                     ) : project.image ? (
                       /* Capture web : ratio d'origine préservé */
-                      <div class="w-full h-full flex items-center justify-center">
+                      <div class="w-full h-full flex items-center justify-center p-1">
                         <img
                           src={project.image}
                           alt={`Aperçu web de ${project.title}`}
@@ -221,7 +221,7 @@ const featuredProjects = getFeaturedProjects();
           </div>
 
           <!-- Gros bouton d'accès à l'ensemble des projets -->
-          <div class="w-full border border-[#262626] bg-[#101010] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="w-full border border-[#262626] bg-[#111111] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <span class="w-2.5 h-2.5 bg-accent inline-block shrink-0"></span>
               <div>
@@ -252,17 +252,17 @@ const featuredProjects = getFeaturedProjects();
         id="slide-3"
         data-slide-index="3"
         data-slide-title="03 / 03 — PROFIL & CONTACTS"
-        class="snap-slide min-h-screen lg:h-screen w-screen flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 py-14 sm:py-16 relative overflow-y-auto lg:overflow-hidden select-none"
+        class="snap-slide min-h-screen w-screen flex flex-col justify-center px-4 sm:px-8 md:px-12 lg:px-16 pt-20 pb-20 sm:pt-24 sm:pb-24 lg:pt-28 lg:pb-28 relative select-none"
       >
         <!-- Grand filigrane d'index en arrière-plan -->
         <span
-          class="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 font-mono text-[140px] sm:text-[220px] lg:text-[280px] font-bold opacity-[0.04] select-none pointer-events-none text-white"
+          class="absolute right-4 sm:right-12 top-1/2 -translate-y-1/2 font-mono text-[140px] sm:text-[220px] lg:text-[280px] font-bold opacity-[0.03] select-none pointer-events-none text-white"
           aria-hidden="true"
         >
           003
         </span>
 
-        <div class="w-full max-w-7xl mx-auto flex flex-col justify-between h-full max-h-[90vh] z-10 space-y-4 sm:space-y-6">
+        <div class="w-full max-w-7xl mx-auto flex flex-col justify-center z-10 space-y-5 sm:space-y-6">
           <!-- En-tête de la diapo -->
           <div>
             <div class="flex items-center gap-3 font-mono text-xs mb-2">
@@ -279,8 +279,8 @@ const featuredProjects = getFeaturedProjects();
             </h2>
           </div>
 
-          <!-- Grille centrale 2 colonnes (Bio & Parcours à gauche / Stack & Contacts à droite) -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start grow">
+          <!-- Grille centrale 2 colonnes équilibrées -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-8 items-start">
             <!-- Colonne Gauche : Parcours & Philosophie -->
             <div class="lg:col-span-6 space-y-4 font-mono text-xs">
               <div class="border border-[#262626] bg-[#0c0c0c] p-4 sm:p-5">
@@ -290,7 +290,7 @@ const featuredProjects = getFeaturedProjects();
                 <div class="font-serif text-2xl text-[#ededed] mb-1">
                   {PROFILE.fullName}
                 </div>
-                <div class="text-[#888888] mb-3">
+                <div class="text-[#888888] mb-3 text-[11px]">
                   Étudiant en 3ème année de BUT Informatique (Parcours RACDV) · Université de Limoges / IUT du Limousin.
                 </div>
                 <div class="text-[11px] text-[#777777] leading-relaxed space-y-2">
@@ -395,6 +395,14 @@ const featuredProjects = getFeaturedProjects();
               </div>
             </div>
           </div>
+
+          <!-- Pied de page technique -->
+          <footer class="pt-3 border-t border-[#262626] flex items-center justify-between font-mono text-[10px] text-[#555555]">
+            <span>© 2026 {PROFILE.fullName} // UNIVERSITÉ DE LIMOGES // IUT DU LIMOUSIN</span>
+            <a href="#slide-1" class="text-[#ededed] hover:text-accent transition-colors font-semibold">
+              RETOUR HAUT [01] ↑
+            </a>
+          </footer>
         </div>
       </section>
     </main>
@@ -403,7 +411,7 @@ const featuredProjects = getFeaturedProjects();
 
 <script>
   // ========================================================
-  // SLIDESHOW CONTROLLER & OBSERVER (3 SLIDES)
+  // SLIDESHOW CONTROLLER & OBSERVER (3 SLIDES ADAPTATIVES)
   // ========================================================
   function initSlideshow() {
     const container = document.getElementById('slides-container');
@@ -498,7 +506,7 @@ const featuredProjects = getFeaturedProjects();
     }
 
     // ------------------------------------------------------
-    // Intersection Observer for Snap Scroll Detection
+    // Intersection Observer for Snap Scroll Detection (Seuil souple 0.35)
     // ------------------------------------------------------
     const observer = new IntersectionObserver(
       (entries) => {
@@ -513,21 +521,21 @@ const featuredProjects = getFeaturedProjects();
       },
       {
         root: container,
-        threshold: 0.55,
+        threshold: 0.35,
       }
     );
 
     slides.forEach((slide) => observer.observe(slide));
 
     // ------------------------------------------------------
-    // Navigation helper
+    // Navigation helper (alignement start propre)
     // ------------------------------------------------------
     function scrollToSlide(index: number) {
       if (index < 1) index = 1;
       if (index > totalSlides) index = totalSlides;
       const targetSlide = document.getElementById(`slide-${index}`);
       if (targetSlide) {
-        targetSlide.scrollIntoView({ behavior: 'smooth' });
+        targetSlide.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
@@ -567,7 +575,6 @@ const featuredProjects = getFeaturedProjects();
     // Keyboard Navigation (Arrow Keys, PageUp, PageDown, Space)
     // ------------------------------------------------------
     window.addEventListener('keydown', (e) => {
-      // Do not capture if user is focusing an input or textarea
       if (['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)) {
         return;
       }

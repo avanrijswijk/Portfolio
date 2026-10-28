@@ -1,122 +1,130 @@
 ---
 // src/components/SlideshowHUD.astro
-// Fixed HUD navigation placed at the 4 corners of the 3-slide full-screen presentation
+// Fixed HUD navigation placed safely at top and bottom with collision guards and backdrop protection
 ---
 
-<div class="fixed inset-0 pointer-events-none z-50 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col justify-between select-none">
-  <!-- ==========================================
-       TOP ROW: IDENTITY & MINIMAL NAVIGATION
-       ========================================== -->
-  <header class="flex items-start justify-between w-full pointer-events-auto">
-    <!-- Top-Left: Brand & Location -->
-    <a
-      href="#slide-1"
-      class="group flex flex-col font-mono text-xs uppercase tracking-wider text-ink transition-colors focus-visible:outline-accent"
-      aria-label="Retour au début du portfolio"
-    >
-      <div class="flex items-center gap-2 font-bold tracking-widest text-[13px] sm:text-sm">
-        <span class="w-2 h-2 bg-accent inline-block"></span>
-        <span class="text-[#ededed]">ADRIAN VAN RIJSWIJK</span>
-      </div>
-      <span class="text-[11px] text-[#888888] tracking-widest pl-4 font-normal">
-        // LIMOGES, FRANCE
+<!-- ==========================================
+     TOP BAR: BRAND & MINIMAL NAVIGATION
+     ========================================== -->
+<header
+  class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-4 sm:px-8 lg:px-12 py-3 sm:py-4 flex items-center justify-between select-none bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent pb-8"
+  aria-label="Navigation supérieure"
+>
+  <!-- Top-Left: Brand & Location -->
+  <a
+    href="#slide-1"
+    class="pointer-events-auto group flex items-center gap-2.5 font-mono text-xs uppercase tracking-wider text-[#ededed] bg-[#0a0a0a]/90 border border-[#262626] px-3 py-1.5 backdrop-blur-md hover:border-accent transition-colors"
+    aria-label="Retour au début du portfolio"
+  >
+    <span class="w-2 h-2 bg-accent inline-block"></span>
+    <span class="font-bold tracking-widest text-[12px] sm:text-xs text-[#ededed]">
+      ADRIAN VAN RIJSWIJK
+    </span>
+    <span class="text-[10px] text-[#777777] tracking-wider hidden sm:inline pl-1 border-l border-[#333333]">
+      LIMOGES
+    </span>
+  </a>
+
+  <!-- Top-Right: Status & Minimal Nav -->
+  <div class="pointer-events-auto flex items-center gap-2 sm:gap-3 font-mono text-xs">
+    <!-- Status Badge with Pulsing LED -->
+    <div class="flex items-center gap-2 border border-[#262626] bg-[#0a0a0a]/90 px-2.5 py-1.5 backdrop-blur-md">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
       </span>
-    </a>
-
-    <!-- Top-Right: Status & Minimal Nav -->
-    <div class="flex flex-col sm:flex-row items-end sm:items-center gap-3 sm:gap-6 font-mono text-xs">
-      <!-- Status Badge with Pulsing LED -->
-      <div class="flex items-center gap-2 border border-[#262626] bg-[#0a0a0a]/90 px-2.5 py-1 backdrop-blur-xs">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span class="text-[10px] sm:text-xs tracking-wider uppercase font-semibold text-[#ededed]">
-          RECHERCHE STAGE
-        </span>
-      </div>
-
-      <!-- Quick Section Links -->
-      <nav class="hidden md:flex items-center gap-1 bg-[#0a0a0a]/90 border border-[#262626] p-1 backdrop-blur-xs" aria-label="Navigation diapo">
-        <a
-          href="#slide-1"
-          class="hud-nav-link px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
-          data-target-slide="1"
-        >
-          [00] ACCUEIL
-        </a>
-        <a
-          href="#slide-2"
-          class="hud-nav-link px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
-          data-target-slide="2"
-        >
-          [01] PROJETS PHARES
-        </a>
-        <a
-          href="/projets"
-          class="px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
-        >
-          [02] CATALOGUE BUT ↗
-        </a>
-        <a
-          href="#slide-3"
-          class="hud-nav-link px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
-          data-target-slide="3"
-        >
-          [03] PROFIL & CONTACT
-        </a>
-      </nav>
+      <span class="text-[10px] sm:text-[11px] tracking-wider uppercase font-semibold text-[#ededed]">
+        RECHERCHE STAGE
+      </span>
     </div>
-  </header>
 
-  <!-- ==========================================
-       BOTTOM ROW: DYNAMIC COUNTER, PROGRESS & CONTROLS
-       ========================================== -->
-  <footer class="flex items-end justify-between w-full pointer-events-auto pt-4">
-    <!-- Bottom-Left: Dynamic Slide Counter & Segmented Progress (3 Slides) -->
-    <div class="flex flex-col gap-2 bg-[#0a0a0a]/90 border border-[#262626] p-3 backdrop-blur-xs max-w-[280px] sm:max-w-none">
-      <div
-        id="hud-slide-counter"
-        class="font-mono text-xs sm:text-sm font-bold tracking-widest text-[#ededed] uppercase"
+    <!-- Quick Section Links -->
+    <nav
+      class="hidden md:flex items-center gap-1 bg-[#0a0a0a]/90 border border-[#262626] p-1 backdrop-blur-md"
+      aria-label="Navigation rapide diapositives"
+    >
+      <a
+        href="#slide-1"
+        class="hud-nav-link px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
+        data-target-slide="1"
       >
-        01 / 03 — INTRODUCTION
-      </div>
+        [00] ACCUEIL
+      </a>
+      <a
+        href="#slide-2"
+        class="hud-nav-link px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
+        data-target-slide="2"
+      >
+        [01] PROJETS
+      </a>
+      <a
+        href="/projets"
+        class="px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
+      >
+        [02] CATALOGUE BUT ↗
+      </a>
+      <a
+        href="#slide-3"
+        class="hud-nav-link px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
+        data-target-slide="3"
+      >
+        [03] CONTACT
+      </a>
+    </nav>
+  </div>
+</header>
 
-      <!-- 3 Progress Bars for the 3 Slides -->
-      <div class="flex items-center gap-1.5 w-40 sm:w-52" aria-hidden="true">
-        <button
-          type="button"
-          class="hud-progress-seg h-1 flex-1 bg-white transition-colors duration-150 cursor-pointer"
-          data-jump-slide="1"
-          title="Aller à la diapositive 1 : Introduction"
-        ></button>
-        <button
-          type="button"
-          class="hud-progress-seg h-1 flex-1 bg-white/20 hover:bg-white/40 transition-colors duration-150 cursor-pointer"
-          data-jump-slide="2"
-          title="Aller à la diapositive 2 : Projets Phares"
-        ></button>
-        <button
-          type="button"
-          class="hud-progress-seg h-1 flex-1 bg-white/20 hover:bg-white/40 transition-colors duration-150 cursor-pointer"
-          data-jump-slide="3"
-          title="Aller à la diapositive 3 : Profil & Contacts"
-        ></button>
-      </div>
+<!-- ==========================================
+     BOTTOM BAR: DYNAMIC COUNTER, PROGRESS & CONTROLS
+     ========================================== -->
+<footer
+  class="fixed bottom-0 left-0 right-0 z-50 pointer-events-none px-4 sm:px-8 lg:px-12 py-3 sm:py-4 flex items-center justify-between select-none bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent pt-8"
+  aria-label="Contrôles de défilement"
+>
+  <!-- Bottom-Left: Dynamic Slide Counter & Segmented Progress -->
+  <div class="pointer-events-auto flex items-center gap-3 bg-[#0a0a0a]/90 border border-[#262626] px-3.5 py-2 backdrop-blur-md">
+    <div
+      id="hud-slide-counter"
+      class="font-mono text-xs font-bold tracking-wider text-[#ededed] uppercase"
+    >
+      01 / 03 — INTRODUCTION
     </div>
 
-    <!-- Bottom-Right: Scroll Indicator -->
-    <div class="flex items-center gap-2 sm:gap-4 font-mono text-xs">
-      <!-- Next Slide Trigger -->
+    <span class="text-[#444444] hidden sm:inline">//</span>
+
+    <!-- 3 Progress Segments for the 3 Slides -->
+    <div class="flex items-center gap-1.5 w-20 sm:w-28" aria-hidden="true">
       <button
-        id="hud-scroll-down"
         type="button"
-        class="group flex items-center gap-2 border border-[#262626] bg-[#0a0a0a]/90 px-3.5 py-2 text-[#ededed] hover:bg-[#ededed] hover:text-[#0a0a0a] transition-colors duration-100 uppercase tracking-widest backdrop-blur-xs cursor-pointer font-semibold"
-        aria-label="Faire défiler vers la prochaine diapositive"
-      >
-        <span class="hidden sm:inline">DÉFILER</span>
-        <span class="group-hover:translate-y-0.5 transition-transform duration-100">↓</span>
-      </button>
+        class="hud-progress-seg h-1 flex-1 bg-white transition-colors duration-150 cursor-pointer"
+        data-jump-slide="1"
+        title="Diapositive 1 : Introduction"
+      ></button>
+      <button
+        type="button"
+        class="hud-progress-seg h-1 flex-1 bg-white/20 hover:bg-white/40 transition-colors duration-150 cursor-pointer"
+        data-jump-slide="2"
+        title="Diapositive 2 : Projets Phares"
+      ></button>
+      <button
+        type="button"
+        class="hud-progress-seg h-1 flex-1 bg-white/20 hover:bg-white/40 transition-colors duration-150 cursor-pointer"
+        data-jump-slide="3"
+        title="Diapositive 3 : Profil & Contacts"
+      ></button>
     </div>
-  </footer>
-</div>
+  </div>
+
+  <!-- Bottom-Right: Scroll Down Trigger -->
+  <div class="pointer-events-auto">
+    <button
+      id="hud-scroll-down"
+      type="button"
+      class="group flex items-center gap-2 border border-[#262626] bg-[#0a0a0a]/90 px-3.5 py-2 text-[#ededed] hover:bg-white hover:text-black transition-colors duration-100 font-mono text-xs font-bold uppercase tracking-wider backdrop-blur-md cursor-pointer"
+      aria-label="Faire défiler vers la prochaine diapositive"
+    >
+      <span class="hidden sm:inline">DÉFILER</span>
+      <span class="group-hover:translate-y-0.5 transition-transform duration-100">↓</span>
+    </button>
+  </div>
+</footer>
