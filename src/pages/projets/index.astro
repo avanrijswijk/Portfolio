@@ -1,306 +1,506 @@
 ---
+// src/pages/projets/index.astro
+// Catalogue des projets - L'Index Interactif Split-Screen (60% Liste éditoriale / 40% Sticky Preview)
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import ContactFooter from '../../components/ContactFooter.astro';
-import { COMPETENCES, getProjectsByCompetence } from '../../data/projects';
+import SecondaryHUD from '../../components/SecondaryHUD.astro';
+import { COMPETENCES, PROJECTS, type Project } from '../../data/projects';
+
+// Fonction de correspondance BUT
+function getProjectButYear(project: Project): 'BUT 1' | 'BUT 2' | 'BUT 3' {
+  if (project.title.includes('1.') || project.year === '2023') return 'BUT 1';
+  if (project.title.includes('2.') || project.title.includes('A2') || project.title.includes('R4.') || project.year === '2024') return 'BUT 2';
+  return 'BUT 3';
+}
+
+const allProjects = PROJECTS;
+const defaultProject = allProjects[0];
 ---
 
 <Layout
-  title="Projets par Compétences du BUT - Adrian van Rijswijk"
-  description="Référentiel des réalisations et projets informatiques d'Adrian van Rijswijk, structurés selon les 6 compétences du BUT Informatique."
+  isFullBleed={true}
+  title="Catalogue & Référentiel des Projets // Adrian van Rijswijk"
+  description="Référentiel des 9 projets et situations professionnelles d'Adrian van Rijswijk, structurés selon les 6 compétences du BUT Informatique."
 >
-  <div class="flex flex-col">
-    <!-- Barre d'état sticky -->
-    <Header currentPath="/projets" />
+  <div class="min-h-screen bg-[#0a0a0a] text-[#ededed]">
+    <!-- HUD fixe aux 4 coins adapté aux pages secondaires -->
+    <SecondaryHUD currentPath="/projets" pageContext="RÉFÉRENTIEL : 09 PROJETS // 6 COMPÉTENCES" />
 
-    <main class="border-b border-neutral-800">
-      <!-- En-tête de la page Projets (Spacieux, Datasheet) -->
-      <section class="p-8 sm:p-12 lg:p-16 border-b border-neutral-800 bg-neutral-950">
-        <div class="flex items-center gap-3 font-mono text-xs text-neutral-500 uppercase tracking-widest mb-6">
-          <a href="/" class="hover:text-white transition-colors">ACCUEIL</a>
-          <span>//</span>
-          <span class="text-neutral-300 font-semibold">RÉFÉRENTIEL BUT INFORMATIQUE</span>
-          <span>//</span>
-          <span class="text-emerald-400">6 COMPÉTENCES</span>
-        </div>
+    <!-- Corps principal avec espacement respirant -->
+    <main class="pt-24 sm:pt-28 pb-28 px-4 sm:px-8 lg:px-14">
+      <div class="max-w-7xl mx-auto">
+        <!-- En-tête éditorial aéré -->
+        <header class="mb-10 sm:mb-14">
+          <div class="flex items-center gap-3 font-mono text-xs text-[#888888] uppercase tracking-widest mb-3">
+            <span class="w-1.5 h-1.5 bg-accent"></span>
+            <span class="text-[#ededed] font-semibold">[01] CATALOGUE DES RÉALISATIONS</span>
+            <span class="text-[#444444]">//</span>
+            <span>BUT INFORMATIQUE RACDV</span>
+          </div>
 
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-mono text-neutral-100 uppercase tracking-tight leading-tight mb-6">
-          Projets & Réalisations par Compétences
-        </h1>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl tracking-tight text-[#ededed] leading-tight mb-4">
+            Index des Projets & Réalisations
+          </h1>
 
-        <p class="text-neutral-400 text-base sm:text-lg max-w-3xl font-sans leading-relaxed mb-8">
-          Explorez l’ensemble de mes réalisations académiques (SAE) et expériences professionnelles. Cliquez sur une compétence pour déplier ou replier ses projets associés.
-        </p>
+          <p class="font-mono text-xs sm:text-sm text-[#888888] max-w-3xl leading-relaxed">
+            Consultez l'ensemble des 9 projets académiques (SAÉ) et professionnels. Utilisez les filtres typographiques épurés ci-dessous pour explorer les réalisations par compétence ou par année de formation.
+          </p>
+        </header>
 
-        <!-- Barre d'actions & Navigation rapide entre compétences -->
-        <div class="pt-6 border-t border-neutral-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono text-xs">
-          <!-- Ancres directes -->
-          <nav class="flex flex-wrap items-center gap-2" aria-label="Accès rapide par compétence">
-            <span class="text-neutral-500 uppercase py-1 mr-1">Aller à :</span>
-            {COMPETENCES.map((comp) => (
+        <!-- Barre de filtres typographiques minimalistes (sans boîtes lourdes) -->
+        <section class="border-y border-[#222222] py-4 mb-6" aria-label="Filtres de compétences et années">
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 font-mono text-xs">
+            <!-- Filtres par Compétences (C1 à C6) -->
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <span class="text-[#555555] uppercase text-[10px] tracking-wider mr-1">Compétence :</span>
               <button
                 type="button"
-                data-jump-competence={comp.id}
-                class="jump-btn px-3 py-1.5 border border-neutral-800 hover:border-neutral-500 hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors uppercase cursor-pointer"
+                data-filter-comp="all"
+                class="comp-filter-btn flex items-center gap-1.5 text-[#ededed] font-bold border-b-2 border-accent pb-0.5 cursor-pointer uppercase transition-colors"
               >
-                [{comp.shortCode}] {comp.name}
+                <span>Toutes</span>
               </button>
-            ))}
-          </nav>
+              {COMPETENCES.map((comp) => (
+                <button
+                  type="button"
+                  data-filter-comp={comp.id}
+                  class="comp-filter-btn flex items-center gap-1.5 text-[#777777] hover:text-white transition-colors cursor-pointer uppercase"
+                >
+                  <span class="text-[10px] opacity-70">[{comp.shortCode}]</span>
+                  <span>{comp.name}</span>
+                </button>
+              ))}
+            </div>
 
-          <!-- Contrôles Tout déplier / Tout replier -->
-          <div class="flex items-center gap-2 shrink-0">
-            <button
-              id="expand-all-btn"
-              type="button"
-              class="px-3.5 py-1.5 border border-neutral-800 bg-neutral-900 hover:border-neutral-500 text-neutral-300 hover:text-white transition-colors uppercase font-medium cursor-pointer"
-            >
-              [+] Tout déplier
-            </button>
-            <button
-              id="collapse-all-btn"
-              type="button"
-              class="px-3.5 py-1.5 border border-neutral-800 bg-neutral-900 hover:border-neutral-500 text-neutral-300 hover:text-white transition-colors uppercase font-medium cursor-pointer"
-            >
-              [-] Tout replier
-            </button>
+            <!-- Filtres par Année (BUT 1, BUT 2, BUT 3) -->
+            <div class="flex items-center gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#222222] w-full md:w-auto">
+              <span class="text-[#555555] uppercase text-[10px] tracking-wider mr-1">Cycle :</span>
+              <button
+                type="button"
+                data-filter-year="all"
+                class="year-filter-btn text-[#ededed] font-bold border-b-2 border-accent pb-0.5 cursor-pointer uppercase transition-colors"
+              >
+                Tous
+              </button>
+              <button
+                type="button"
+                data-filter-year="BUT 1"
+                class="year-filter-btn text-[#777777] hover:text-white transition-colors cursor-pointer uppercase"
+              >
+                BUT 1
+              </button>
+              <button
+                type="button"
+                data-filter-year="BUT 2"
+                class="year-filter-btn text-[#777777] hover:text-white transition-colors cursor-pointer uppercase"
+              >
+                BUT 2
+              </button>
+              <button
+                type="button"
+                data-filter-year="BUT 3"
+                class="year-filter-btn text-[#777777] hover:text-white transition-colors cursor-pointer uppercase"
+              >
+                BUT 3
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bannière contextuelle réflexive de compétence active -->
+        <div
+          id="competence-context-banner"
+          class="mb-8 p-4 sm:p-5 border-l-2 border-accent bg-[#0d0d0d] font-mono text-xs leading-relaxed text-[#888888] transition-all"
+        >
+          <div id="banner-title" class="text-[#ededed] font-bold text-sm mb-1 uppercase tracking-wide">
+            SYNTHÈSE DU RÉFÉRENTIEL // TOUTES COMPÉTENCES
+          </div>
+          <div id="banner-desc">
+            Explorez les 9 projets du cursus. Survolez une ligne dans la liste pour prévisualiser instantanément son architecture, sa capture visuelle et ses spécifications techniques.
           </div>
         </div>
-      </section>
 
-      <!-- Liste en accordéon déroulant des 6 Compétences -->
-      <div id="competences-accordion-list" class="divide-y divide-neutral-800">
-        {COMPETENCES.map((competence, idx) => {
-          const compProjects = getProjectsByCompetence(competence.id);
-          const isOpenDefault = idx === 0; // Ouvre la première compétence par défaut pour guider l'utilisateur
+        <!-- ========================================================
+             SPLIT-SCREEN ASYMÉTRIQUE : 60% GAUCHE / 40% DROITE STICKY
+             ======================================================== -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <!-- Zone Gauche (60% - lg:col-span-7) : Liste d'index éditoriale -->
+          <div class="lg:col-span-7">
+            <div id="projects-index-list" class="divide-y divide-[#222222]">
+              {allProjects.map((project, idx) => {
+                const butYear = getProjectButYear(project);
+                const displayIndex = (idx + 1).toString().padStart(2, '0');
 
-          return (
-            <details
-              id={competence.id}
-              class="competence-accordion group bg-[#0a0a0a] transition-colors"
-              open={isOpenDefault}
-            >
-              <!-- En-tête cliquable (Summary) de la compétence -->
-              <summary class="p-6 sm:p-8 hover:bg-neutral-950 cursor-pointer list-none [&::-webkit-details-marker]:hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none group-open:bg-neutral-950/90 transition-colors">
-                <div class="flex items-center gap-3.5 flex-wrap">
-                  <span class="px-2.5 py-1 bg-neutral-900 border border-neutral-800 text-emerald-400 font-mono font-bold text-xs">
-                    {competence.shortCode}
-                  </span>
-                  <h2 class="text-lg sm:text-xl font-bold font-mono text-neutral-100 uppercase group-hover:text-white transition-colors">
-                    {competence.title}
-                  </h2>
-                  <span class="px-2.5 py-0.5 border border-neutral-800 text-[11px] font-mono text-neutral-400 bg-neutral-900/60">
-                    {compProjects.length > 0
-                      ? `${compProjects.length} PROJET${compProjects.length > 1 ? 'S' : ''}`
-                      : 'TRANSVERSALE'}
-                  </span>
-                </div>
-
-                <div class="flex items-center gap-4 shrink-0 self-end md:self-auto font-mono text-xs">
-                  <span class="text-neutral-500 text-[11px] hidden xl:inline max-w-sm truncate">
-                    {competence.description}
-                  </span>
-                  <span class="px-3.5 py-1.5 border border-neutral-800 bg-neutral-900 text-neutral-300 group-hover:border-neutral-500 transition-colors inline-flex items-center gap-1.5">
-                    <span class="group-open:hidden text-neutral-400 font-semibold">[+] DÉPLIER</span>
-                    <span class="hidden group-open:inline text-emerald-400 font-semibold">[-] REPLIER</span>
-                  </span>
-                </div>
-              </summary>
-
-              <!-- Contenu déroulé : Projets de la compétence -->
-              <div class="border-t border-neutral-800 bg-[#0a0a0a]">
-                <!-- Bandeau descriptif de la compétence -->
-                <div class="px-6 sm:px-8 py-4 bg-neutral-950 border-b border-neutral-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 font-mono text-xs text-neutral-400">
-                  <p class="leading-relaxed">
-                    <strong class="text-neutral-300 uppercase mr-1">Axe BUT :</strong>
-                    {competence.description}
-                  </p>
-                  <span class="text-[10px] text-neutral-500 shrink-0 uppercase tracking-wider">
-                    {compProjects.length} ENTRÉES DISPONIBLES
-                  </span>
-                </div>
-
-                <!-- Grille des projets -->
-                {compProjects.length > 0 ? (
-                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 bg-neutral-800 gap-[1px]">
-                    {compProjects.map((project) => (
-                      <article class="flex flex-col justify-between bg-[#0a0a0a] hover:bg-[#0e0e0e] transition-colors p-0 group">
-                        <!-- En-tête de carte -->
-                        <div class="px-6 py-4 border-b border-neutral-800 flex items-center justify-between font-mono text-xs text-neutral-400 bg-neutral-950/60">
-                          <div class="flex items-center gap-2">
-                            <span class="text-neutral-100 font-bold">{project.index}</span>
-                            <span class="text-neutral-600">//</span>
-                            <span class="text-neutral-400">{project.year}</span>
-                          </div>
-                          <span class="px-2 py-0.5 border border-neutral-800 text-[10px] text-neutral-400 uppercase">
-                            {project.category}
-                          </span>
-                        </div>
-
-                        <!-- Zone d'aperçu adaptée au format -->
-                        <a
-                          href={`/projets/${project.slug}`}
-                          class="aspect-video w-full bg-neutral-950 border-b border-neutral-800 relative flex items-center justify-center overflow-hidden block p-2"
-                        >
-                          {project.image ? (
-                            <img
-                              src={project.image}
-                              alt={`Aperçu du projet ${project.title}`}
-                              class="max-h-full max-w-full object-contain grayscale group-hover:grayscale-0 opacity-85 group-hover:opacity-100 transition-all duration-300"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div class="w-full h-full flex flex-col items-center justify-center p-4 border border-dashed border-neutral-800/80 bg-neutral-900/30">
-                              <span class="font-mono text-xs uppercase tracking-wider text-neutral-500">
-                                [APERÇU PROJET]
-                              </span>
-                              <span class="font-mono text-[10px] text-neutral-600 mt-1">
-                                FICHE DÉTAILLÉE
-                              </span>
-                            </div>
-                          )}
-                          <div class="absolute bottom-2.5 right-2.5 px-2 py-1 bg-neutral-950/90 font-mono text-[10px] text-neutral-300 border border-neutral-800 opacity-0 group-hover:opacity-100 transition-opacity">
-                            FICHE TECHNIQUE →
-                          </div>
-                        </a>
-
-                        <!-- Corps de la carte -->
-                        <div class="p-6 sm:p-7 grow flex flex-col">
-                          <h3 class="font-mono font-bold text-base sm:text-lg text-neutral-100 mb-2.5 group-hover:text-emerald-400 transition-colors leading-snug">
-                            <a href={`/projets/${project.slug}`}>
-                              {project.title}
-                            </a>
-                          </h3>
-
-                          <p class="text-xs sm:text-sm text-neutral-300 font-sans leading-relaxed mb-4">
-                            {project.shortDescription}
-                          </p>
-
-                          <div class="mt-auto pt-3 border-t border-neutral-800/80">
-                            <p class="text-xs font-mono text-neutral-400 leading-relaxed">
-                              <strong class="text-neutral-200 font-semibold uppercase text-[10px] block mb-1 tracking-wider">
-                                Problématique technique :
-                              </strong>
-                              {project.technicalProblem}
-                            </p>
-                          </div>
-                        </div>
-
-                        <!-- Pied de carte -->
-                        <div class="p-6 border-t border-neutral-800 bg-neutral-950/40 flex flex-col gap-3.5">
-                          <div class="flex flex-wrap gap-1.5" aria-label="Technologies utilisées">
-                            {project.tags.slice(0, 4).map((tag) => (
-                              <span class="px-2.5 py-1 border border-neutral-800 font-mono text-[10px] text-neutral-400 uppercase tracking-tight bg-neutral-900/50">
-                                {tag}
-                              </span>
-                            ))}
-                            {project.tags.length > 4 && (
-                              <span class="px-2 py-1 border border-neutral-800 font-mono text-[10px] text-neutral-500">
-                                +{project.tags.length - 4}
-                              </span>
-                            )}
-                          </div>
-
-                          <div class="flex items-center justify-between pt-3 border-t border-neutral-800/80 font-mono text-xs">
-                            <a
-                              href={`/projets/${project.slug}`}
-                              class="text-neutral-200 hover:text-emerald-400 font-semibold transition-colors inline-flex items-center gap-1.5"
-                            >
-                              <span>Consulter la fiche</span>
-                              <span>→</span>
-                            </a>
-
-                            {project.githubUrl && (
-                              <a
-                                href={project.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="text-neutral-400 hover:text-white transition-colors inline-flex items-center gap-1 group/gh"
-                              >
-                                <span>GitHub</span>
-                                <span class="group-hover/gh:translate-x-0.5 group-hover/gh:-translate-y-0.5 transition-transform">↗</span>
-                              </a>
-                            )}
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                ) : (
-                  /* Cas de la compétence 6 : transversale */
-                  <div class="p-8 sm:p-12 bg-[#0a0a0a]">
-                    <div class="max-w-3xl border border-dashed border-neutral-700/80 bg-neutral-950/60 p-8 font-mono">
-                      <span class="text-emerald-400 text-xs uppercase tracking-wider font-semibold block mb-2">
-                        [COMPÉTENCE TRANSVERSALE APPLIQUÉE]
-                      </span>
-                      <h3 class="text-lg font-bold text-neutral-100 uppercase mb-3">
-                        Pratiques Collaboratives & Travail d’Équipe
-                      </h3>
-                      <p class="text-sm text-neutral-300 font-sans leading-relaxed mb-6">
-                        La compétence Collaborer est intégrée de façon transversale dans l’ensemble de mes projets de SAE et de stage. Elle se concrétise au quotidien par l’application stricte des flux Git (GitFlow, branches de fonctionnalités, Pull Requests), la pratique du Pair Programming, les revues de code systématiques et la tenue de réunions agiles (sprints, standups, rétrospectives).
-                      </p>
-                      <div class="flex flex-wrap gap-2 text-xs">
-                        <span class="px-3 py-1 border border-neutral-800 bg-neutral-900 text-neutral-300">
-                          Git & GitHub Teams
-                        </span>
-                        <span class="px-3 py-1 border border-neutral-800 bg-neutral-900 text-neutral-300">
-                          Pair Programming
-                        </span>
-                        <span class="px-3 py-1 border border-neutral-800 bg-neutral-900 text-neutral-300">
-                          Code Reviews & CI
-                        </span>
-                        <span class="px-3 py-1 border border-neutral-800 bg-neutral-900 text-neutral-300">
-                          Méthodes Agiles / Scrum
-                        </span>
+                return (
+                  <article
+                    class="project-row group py-6 sm:py-7 transition-colors cursor-pointer block select-none"
+                    data-slug={project.slug}
+                    data-comp={project.competenceId}
+                    data-year={butYear}
+                    data-title={project.title}
+                    data-index={project.index}
+                    data-period={project.year}
+                    data-comptitle={project.competenceTitle}
+                    data-shortdesc={project.shortDescription}
+                    data-techprob={project.technicalProblem}
+                    data-tags={JSON.stringify(project.tags)}
+                    data-image={project.image || (project.images.length > 0 ? project.images[0] : '')}
+                  >
+                    <!-- En-tête de ligne avec contexte et compétence -->
+                    <div class="flex items-center justify-between text-[11px] font-mono text-[#666666] mb-1.5">
+                      <div class="flex items-center gap-2">
+                        <span class="text-accent font-bold">[{displayIndex}]</span>
+                        <span>//</span>
+                        <span class="text-[#888888]">{project.year}</span>
+                        <span>//</span>
+                        <span class="text-emerald-400 font-semibold">{butYear}</span>
                       </div>
+                      <span class="text-[#888888] uppercase text-[10px] tracking-wider font-semibold">
+                        ■ {project.competenceId.toUpperCase()}
+                      </span>
                     </div>
-                  </div>
-                )}
+
+                    <!-- Titre du projet en grand Serif avec décalage au survol -->
+                    <div class="flex items-baseline justify-between gap-4">
+                      <a
+                        href={`/projets/${project.slug}`}
+                        class="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#ededed] group-hover:text-accent group-hover:translate-x-2 transition-all duration-150 leading-snug"
+                      >
+                        {project.title}
+                      </a>
+                      <span class="text-[#555555] group-hover:text-accent group-hover:translate-x-1.5 transition-all duration-150 font-mono text-sm hidden sm:inline">
+                        →
+                      </span>
+                    </div>
+
+                    <!-- Métadonnées descriptives -->
+                    <div class="mt-2 flex flex-wrap items-center gap-3 font-mono text-xs text-[#888888]">
+                      <span class="text-[11px] text-[#777777]">{project.competenceTitle}</span>
+                      <span class="text-[#444444]">//</span>
+                      <span class="text-[11px] text-[#555555]">{project.category}</span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+            <!-- Message d'état vide si aucun résultat -->
+            <div
+              id="empty-results-msg"
+              class="hidden py-16 text-center font-mono text-xs text-[#777777] border border-dashed border-[#222222] p-8"
+            >
+              Aucun projet ne correspond à cette combinaison de filtres.
+            </div>
+          </div>
+
+          <!-- Zone Droite (40% - lg:col-span-5) : Prévisualisation Fixe "Sticky" -->
+          <div class="hidden lg:block lg:col-span-5">
+            <aside
+              id="sticky-preview"
+              class="sticky top-28 border border-[#222222] bg-[#0c0c0c] p-5 sm:p-6 select-none transition-all duration-150"
+              aria-label="Prévisualisation dynamique du projet"
+            >
+              <!-- En-tête technique preview -->
+              <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#222222] font-mono text-[11px] text-[#888888]">
+                <div class="flex items-center gap-2">
+                  <span id="preview-index" class="text-accent font-bold">[{defaultProject.index}]</span>
+                  <span>//</span>
+                  <span id="preview-year">{defaultProject.year}</span>
+                </div>
+                <span id="preview-comp-badge" class="border border-accent/60 text-accent px-1.5 py-0.5 text-[9px] uppercase font-semibold">
+                  ■ {defaultProject.competenceId.toUpperCase()}
+                </span>
               </div>
-            </details>
-          );
-        })}
+
+              <!-- Cadre visuel adaptatif (Image ou Visualiseur 1-bit) -->
+              <div
+                id="preview-visual-box"
+                class="h-44 sm:h-48 w-full bg-[#060606] border border-[#1f1f1f] flex items-center justify-center p-2 overflow-hidden mb-4 relative"
+              >
+                <!-- Image du projet si disponible -->
+                <img
+                  id="preview-img"
+                  src={defaultProject.image || (defaultProject.images.length > 0 ? defaultProject.images[0] : '')}
+                  alt={defaultProject.title}
+                  class={`max-w-full max-h-full object-contain grayscale opacity-85 transition-all duration-200 ${
+                    defaultProject.image ? 'block' : 'hidden'
+                  }`}
+                />
+
+                <!-- Placeholder télémétrie 1-bit si projet sans image -->
+                <div
+                  id="preview-telemetry"
+                  class={`w-full h-full p-4 flex flex-col justify-between font-mono text-[10px] text-[#888888] bg-[#090909] ${
+                    defaultProject.image ? 'hidden' : 'flex'
+                  }`}
+                >
+                  <div class="flex items-center justify-between border-b border-[#222222] pb-1.5">
+                    <span class="text-[#ededed] font-bold">TOPOLOGIE & CODE SOURCE</span>
+                    <span class="text-emerald-400">● ACTIF</span>
+                  </div>
+                  <div class="text-[9px] space-y-1 my-auto">
+                    <div class="text-[#555555]">// INFRASTRUCTURE & ARCHITECTURE</div>
+                    <div id="preview-telemetry-subtitle" class="text-accent">DSI UNIVERSITÉ DE LIMOGES</div>
+                    <div class="text-[#888888]">VALIDATION DU RÉFÉRENTIEL BUT</div>
+                  </div>
+                  <div class="border-t border-[#222222] pt-1.5 flex justify-between text-[9px] text-[#555555]">
+                    <span>SYSTÈME LINUX</span>
+                    <span class="text-[#ededed]">DEV_OPS</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Titre du projet en grand Serif -->
+              <h3
+                id="preview-title"
+                class="font-serif text-2xl text-[#ededed] mb-2 leading-snug"
+              >
+                {defaultProject.title}
+              </h3>
+
+              <!-- Résumé court -->
+              <p
+                id="preview-desc"
+                class="font-mono text-xs text-[#888888] line-clamp-3 leading-relaxed mb-3"
+              >
+                {defaultProject.shortDescription}
+              </p>
+
+              <!-- Problématique technique -->
+              <div class="p-3 border-l-2 border-accent bg-[#121212] mb-4">
+                <span class="font-mono text-[10px] uppercase text-[#ededed] font-semibold block mb-0.5">
+                  Problématique technique :
+                </span>
+                <p id="preview-problem" class="font-mono text-[11px] text-[#888888] line-clamp-2 leading-relaxed">
+                  {defaultProject.technicalProblem}
+                </p>
+              </div>
+
+              <!-- Tags de la stack -->
+              <div id="preview-tags" class="flex flex-wrap gap-1 font-mono text-[10px] text-[#777777] mb-5">
+                {defaultProject.tags.map((tag) => (
+                  <span class="px-2 py-0.5 border border-[#222222] bg-[#141414]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <!-- Bouton d'action franc pour ouvrir la fiche -->
+              <a
+                id="preview-link"
+                href={`/projets/${defaultProject.slug}`}
+                class="w-full py-3.5 bg-white text-black hover:bg-accent hover:text-white transition-colors duration-100 font-mono text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>OUVRIR L'ÉTUDE DE CAS</span>
+                <span>→</span>
+              </a>
+            </aside>
+          </div>
+        </div>
       </div>
     </main>
-
-    <!-- Footer -->
-    <ContactFooter />
   </div>
 </Layout>
 
-<!-- Script interactif pour dérouler / replier et navigation rapide -->
 <script>
-  function setupAccordionControls() {
-    const accordions = document.querySelectorAll<HTMLDetailsElement>('.competence-accordion');
-    const expandAllBtn = document.getElementById('expand-all-btn');
-    const collapseAllBtn = document.getElementById('collapse-all-btn');
-    const jumpButtons = document.querySelectorAll<HTMLButtonElement>('[data-jump-competence]');
+  // ========================================================
+  // INTERACTIVE SPLIT-SCREEN CONTROLLER & FILTERS
+  // ========================================================
+  function initProjectCatalog() {
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('.project-row'));
+    const compFilterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.comp-filter-btn'));
+    const yearFilterBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('.year-filter-btn'));
+    const emptyMsg = document.getElementById('empty-results-msg');
 
-    // Tout déplier
-    expandAllBtn?.addEventListener('click', () => {
-      accordions.forEach((acc) => (acc.open = true));
-    });
+    // Éléments de la preview sticky à droite
+    const previewIndex = document.getElementById('preview-index');
+    const previewYear = document.getElementById('preview-year');
+    const previewCompBadge = document.getElementById('preview-comp-badge');
+    const previewImg = document.getElementById('preview-img') as HTMLImageElement | null;
+    const previewTelemetry = document.getElementById('preview-telemetry');
+    const previewTitle = document.getElementById('preview-title');
+    const previewDesc = document.getElementById('preview-desc');
+    const previewProblem = document.getElementById('preview-problem');
+    const previewTags = document.getElementById('preview-tags');
+    const previewLink = document.getElementById('preview-link') as HTMLAnchorElement | null;
 
-    // Tout replier
-    collapseAllBtn?.addEventListener('click', () => {
-      accordions.forEach((acc) => (acc.open = false));
-    });
+    // Éléments de la bannière contextuelle
+    const bannerTitle = document.getElementById('banner-title');
+    const bannerDesc = document.getElementById('banner-desc');
 
-    // Saut direct à une compétence : déplie automatiquement la section ciblée et scroll vers elle
-    jumpButtons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const targetId = btn.getAttribute('data-jump-competence');
-        if (!targetId) return;
+    const COMPETENCE_DESCRIPTIONS: Record<string, { title: string; desc: string }> = {
+      all: {
+        title: 'SYNTHÈSE DU RÉFÉRENTIEL // TOUTES COMPÉTENCES',
+        desc: 'Explorez les 9 projets du cursus. Survolez une ligne dans la liste pour prévisualiser instantanément son architecture, sa capture visuelle et ses spécifications techniques.',
+      },
+      c1: {
+        title: 'C1 // RÉALISER : DÉVELOPPER DES APPLICATIONS INFORMATIQUES',
+        desc: 'Conception, codage, test et intégration d’applications logicielles, web et mobiles avec architectures maintenables (MVC, MVVM) et typage strict.',
+      },
+      c2: {
+        title: 'C2 // OPTIMISER : AMÉLIORER LES PERFORMANCES D’APPLICATIONS',
+        desc: 'Analyse formelle de la complexité algorithmique (Big-O), sélection de structures de données matricielles et implémentation d’algorithmes heuristiques.',
+      },
+      c3: {
+        title: 'C3 // ADMINISTRER : GÉRER LES SYSTÈMES INFORMATIQUES COMMUNICANTS',
+        desc: 'Configuration de réseaux virtualisés (Kathara, CIDR/VLSM), déploiement sécurisé de conteneurs Docker éphémères et administration d’environnements Linux.',
+      },
+      c4: {
+        title: 'C4 // GÉRER : SUPERVISER DES DONNÉES DE L’INFORMATION',
+        desc: 'Conception conceptuelle (MCD/MLD), normalisation 3NF, requêtage analytique SQL optimisé et restitution graphique interactive de données (KPIs).',
+      },
+      c5: {
+        title: 'C5 // CONDUIRE : PILOTER DES PROJETS INFORMATIQUES',
+        desc: 'Méthodologies agiles, formalisation méthodique d’exigences client (SWOT, RACI, SMART), planification de jalons (Gantt) et chiffrage budgétaire.',
+      },
+      c6: {
+        title: 'C6 // COLLABORER : TRAVAILLER DANS UNE ÉQUIPE INFORMATIQUE',
+        desc: 'Pratiques collaboratives rigoureuses sous Git/GitHub, intégration au sein d’équipes de développement et communication technique structurée.',
+      },
+    };
 
-        const targetAccordion = document.getElementById(targetId) as HTMLDetailsElement | null;
-        if (targetAccordion) {
-          targetAccordion.open = true;
-          targetAccordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    let activeComp = 'all';
+    let activeYear = 'all';
+
+    // ------------------------------------------------------
+    // Mise à jour de la prévisualisation Sticky à droite
+    // ------------------------------------------------------
+    function updatePreview(row: HTMLElement) {
+      const slug = row.getAttribute('data-slug') || '';
+      const title = row.getAttribute('data-title') || '';
+      const index = row.getAttribute('data-index') || '001';
+      const period = row.getAttribute('data-period') || '2024';
+      const comp = row.getAttribute('data-comp') || 'c1';
+      const shortDesc = row.getAttribute('data-shortdesc') || '';
+      const techProb = row.getAttribute('data-techprob') || '';
+      const image = row.getAttribute('data-image') || '';
+      let tags: string[] = [];
+      try {
+        tags = JSON.parse(row.getAttribute('data-tags') || '[]');
+      } catch (e) {
+        tags = [];
+      }
+
+      if (previewIndex) previewIndex.textContent = `[${index}]`;
+      if (previewYear) previewYear.textContent = period;
+      if (previewCompBadge) previewCompBadge.textContent = `■ ${comp.toUpperCase()}`;
+      if (previewTitle) previewTitle.textContent = title;
+      if (previewDesc) previewDesc.textContent = shortDesc;
+      if (previewProblem) previewProblem.textContent = techProb;
+      if (previewLink) previewLink.href = `/projets/${slug}`;
+
+      // Image vs Télémétrie
+      if (image && previewImg) {
+        previewImg.src = image;
+        previewImg.classList.remove('hidden');
+        previewImg.classList.add('block');
+        if (previewTelemetry) {
+          previewTelemetry.classList.add('hidden');
+          previewTelemetry.classList.remove('flex');
         }
+      } else {
+        if (previewImg) {
+          previewImg.classList.add('hidden');
+          previewImg.classList.remove('block');
+        }
+        if (previewTelemetry) {
+          previewTelemetry.classList.remove('hidden');
+          previewTelemetry.classList.add('flex');
+        }
+      }
+
+      // Tags
+      if (previewTags) {
+        previewTags.innerHTML = tags
+          .slice(0, 5)
+          .map(
+            (t) => `<span class="px-2 py-0.5 border border-[#222222] bg-[#141414] text-[#ededed]">${t}</span>`
+          )
+          .join('');
+      }
+    }
+
+    // Événement au survol de chaque ligne
+    rows.forEach((row) => {
+      row.addEventListener('mouseenter', () => updatePreview(row));
+      row.addEventListener('focus', () => updatePreview(row));
+    });
+
+    // ------------------------------------------------------
+    // Filtrage dynamique
+    // ------------------------------------------------------
+    function applyFilters() {
+      let visibleCount = 0;
+      let firstVisibleRow: HTMLElement | null = null;
+
+      rows.forEach((row) => {
+        const rowComp = row.getAttribute('data-comp');
+        const rowYear = row.getAttribute('data-year');
+
+        const matchComp = activeComp === 'all' || rowComp === activeComp;
+        const matchYear = activeYear === 'all' || rowYear === activeYear;
+
+        if (matchComp && matchYear) {
+          row.style.display = 'block';
+          visibleCount++;
+          if (!firstVisibleRow) firstVisibleRow = row;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      // Affichage du message si aucun résultat
+      if (emptyMsg) {
+        emptyMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+
+      // Met à jour la preview sur le premier résultat visible
+      if (firstVisibleRow) {
+        updatePreview(firstVisibleRow);
+      }
+
+      // Mise à jour de la bannière contextuelle de compétence
+      if (bannerTitle && bannerDesc) {
+        const info = COMPETENCE_DESCRIPTIONS[activeComp] || COMPETENCE_DESCRIPTIONS.all;
+        bannerTitle.textContent = info.title;
+        bannerDesc.textContent = info.desc;
+      }
+    }
+
+    // Clics sur les filtres de compétences
+    compFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const comp = btn.getAttribute('data-filter-comp') || 'all';
+        activeComp = comp;
+
+        compFilterBtns.forEach((b) => {
+          b.classList.remove('text-[#ededed]', 'font-bold', 'border-b-2', 'border-accent', 'pb-0.5');
+          b.classList.add('text-[#777777]');
+        });
+        btn.classList.remove('text-[#777777]');
+        btn.classList.add('text-[#ededed]', 'font-bold', 'border-b-2', 'border-accent', 'pb-0.5');
+
+        applyFilters();
+      });
+    });
+
+    // Clics sur les filtres d'années
+    yearFilterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const year = btn.getAttribute('data-filter-year') || 'all';
+        activeYear = year;
+
+        yearFilterBtns.forEach((b) => {
+          b.classList.remove('text-[#ededed]', 'font-bold', 'border-b-2', 'border-accent', 'pb-0.5');
+          b.classList.add('text-[#777777]');
+        });
+        btn.classList.remove('text-[#777777]');
+        btn.classList.add('text-[#ededed]', 'font-bold', 'border-b-2', 'border-accent', 'pb-0.5');
+
+        applyFilters();
       });
     });
   }
 
-  document.addEventListener('DOMContentLoaded', setupAccordionControls);
-  setupAccordionControls();
+  document.addEventListener('DOMContentLoaded', initProjectCatalog);
+  initProjectCatalog();
 </script>

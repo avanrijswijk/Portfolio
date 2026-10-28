@@ -1,0 +1,123 @@
+---
+// src/components/SecondaryHUD.astro
+// Fixed HUD navigation for secondary pages (/projets and /projets/[slug])
+interface Props {
+  currentPath?: string;
+  pageContext?: string;
+}
+
+const {
+  currentPath = '/projets',
+  pageContext = 'CATALOGUE : 09 PROJETS // 6 COMPÉTENCES',
+} = Astro.props;
+---
+
+<!-- ==========================================
+     TOP BAR: IDENTITY & NAVIGATION
+     ========================================== -->
+<header
+  class="fixed top-0 left-0 right-0 z-50 pointer-events-none px-4 sm:px-8 lg:px-12 py-3 sm:py-4 flex items-center justify-between select-none bg-gradient-to-b from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent pb-8"
+  aria-label="Navigation supérieure"
+>
+  <!-- Top-Left: Brand & Location -->
+  <a
+    href="/"
+    class="pointer-events-auto group flex items-center gap-2.5 font-mono text-xs uppercase tracking-wider text-[#ededed] bg-[#0a0a0a]/90 border border-[#262626] px-3 py-1.5 backdrop-blur-md hover:border-accent transition-colors"
+    aria-label="Retour à l'accueil"
+  >
+    <span class="w-2 h-2 bg-accent inline-block"></span>
+    <span class="font-bold tracking-widest text-[12px] sm:text-xs text-[#ededed]">
+      ADRIAN VAN RIJSWIJK
+    </span>
+    <span class="text-[10px] text-[#777777] tracking-wider hidden sm:inline pl-1 border-l border-[#333333]">
+      LIMOGES
+    </span>
+  </a>
+
+  <!-- Top-Right: Status & Minimal Nav -->
+  <div class="pointer-events-auto flex items-center gap-2 sm:gap-3 font-mono text-xs">
+    <!-- Status Badge with Pulsing LED -->
+    <div class="flex items-center gap-2 border border-[#262626] bg-[#0a0a0a]/90 px-2.5 py-1.5 backdrop-blur-md">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+      </span>
+      <span class="text-[10px] sm:text-[11px] tracking-wider uppercase font-semibold text-[#ededed]">
+        RECHERCHE STAGE
+      </span>
+    </div>
+
+    <!-- Quick Section Links -->
+    <nav
+      class="hidden md:flex items-center gap-1 bg-[#0a0a0a]/90 border border-[#262626] p-1 backdrop-blur-md"
+      aria-label="Navigation rapide"
+    >
+      <a
+        href="/"
+        class="px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
+      >
+        [00] ACCUEIL
+      </a>
+      <a
+        href="/projets"
+        class={`px-2.5 py-1 text-[11px] tracking-wider uppercase transition-colors duration-100 ${
+          currentPath === '/projets'
+            ? 'text-white font-bold bg-white/10'
+            : 'text-[#888888] hover:text-white hover:bg-white/5'
+        }`}
+      >
+        [01] CATALOGUE BUT
+      </a>
+      <a
+        href="/#contact"
+        class="px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
+      >
+        [02] CONTACT
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ==========================================
+     BOTTOM BAR: CONTEXT BADGE & BACK TO TOP
+     ========================================== -->
+<footer
+  class="fixed bottom-0 left-0 right-0 z-50 pointer-events-none px-4 sm:px-8 lg:px-12 py-3 sm:py-4 flex items-center justify-between select-none bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/85 to-transparent pt-8"
+  aria-label="Pied de page et raccourcis"
+>
+  <!-- Bottom-Left: Context Information -->
+  <div class="pointer-events-auto flex items-center gap-2 bg-[#0a0a0a]/90 border border-[#262626] px-3.5 py-2 backdrop-blur-md">
+    <span class="w-1.5 h-1.5 bg-accent"></span>
+    <span class="font-mono text-[11px] sm:text-xs font-bold tracking-wider text-[#ededed] uppercase">
+      {pageContext}
+    </span>
+  </div>
+
+  <!-- Bottom-Right: Scroll to Top -->
+  <div class="pointer-events-auto">
+    <button
+      id="hud-back-to-top"
+      type="button"
+      class="group flex items-center gap-2 border border-[#262626] bg-[#0a0a0a]/90 px-3.5 py-2 text-[#ededed] hover:bg-white hover:text-black transition-colors duration-100 font-mono text-xs font-bold uppercase tracking-wider backdrop-blur-md cursor-pointer"
+      aria-label="Retourner en haut de la page"
+    >
+      <span class="hidden sm:inline">HAUT DE PAGE</span>
+      <span class="group-hover:-translate-y-0.5 transition-transform duration-100">↑</span>
+    </button>
+  </div>
+</footer>
+
+<script>
+  function initSecondaryHud() {
+    const topBtn = document.getElementById('hud-back-to-top');
+    if (topBtn) {
+      topBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initSecondaryHud);
+  initSecondaryHud();
+</script>
+

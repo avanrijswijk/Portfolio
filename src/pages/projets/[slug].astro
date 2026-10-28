@@ -1,7 +1,8 @@
 ---
+// src/pages/projets/[slug].astro
+// Étude de Cas à Écran Scindé : 30% Gauche Fixe (Identité & Sommaire) / 70% Droite Défilante (Récit & Preuves)
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import ContactFooter from '../../components/ContactFooter.astro';
+import SecondaryHUD from '../../components/SecondaryHUD.astro';
 import { PROJECTS, type Project } from '../../data/projects';
 
 export function getStaticPaths() {
@@ -26,379 +27,453 @@ const { project, prevProject, nextProject } = Astro.props;
 ---
 
 <Layout
+  isFullBleed={true}
   title={`${project.title} // Adrian van Rijswijk`}
   description={project.shortDescription}
 >
-  <div class="flex flex-col">
-    <!-- Barre d'état sticky -->
-    <Header currentPath="/projets" />
+  <div class="min-h-screen bg-[#0a0a0a] text-[#ededed]">
+    <!-- HUD fixe aux 4 coins adapté à l'étude de cas -->
+    <SecondaryHUD
+      currentPath="/projets"
+      pageContext={`ÉTUDE DE CAS : [${project.index}] // ${project.competenceId.toUpperCase()}`}
+    />
 
-    <main class="border-b border-neutral-800">
-      <!-- Barre d'état & Fil d'Ariane Technique -->
-      <div class="px-6 sm:px-12 py-4 border-b border-neutral-800 bg-neutral-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs text-neutral-400">
-        <div class="flex items-center gap-2.5 flex-wrap">
-          <a href="/projets" class="text-neutral-300 hover:text-white transition-colors flex items-center gap-1.5 font-semibold">
-            <span>←</span>
-            <span>INDEX DES PROJETS</span>
-          </a>
-          <span class="text-neutral-700">//</span>
-          <span class="text-neutral-500">SPEC_ID: [{project.index}]</span>
-          <span class="text-neutral-700">//</span>
-          <span class="text-emerald-400">{project.competenceId.toUpperCase()}</span>
-          <span class="text-neutral-700">//</span>
-          <span class="text-neutral-400">{project.year}</span>
-        </div>
-
-        <div class="flex items-center gap-4">
-          {project.githubUrl && (
+    <!-- Conteneur principal plein écran scindé en 2 colonnes (30% Gauche / 70% Droite) -->
+    <main class="pt-24 sm:pt-28 pb-28 px-4 sm:px-8 lg:px-14">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <!-- ========================================================
+             COLONNE GAUCHE FIXE (30% - lg:col-span-4 sticky top-28)
+             Fiche d'identité, Navigation, Métadonnées et Sommaire
+             ======================================================== -->
+        <aside class="lg:col-span-4 lg:sticky lg:top-28 space-y-8 select-none">
+          <!-- Bouton Retour à l'index -->
+          <div>
             <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-white transition-colors inline-flex items-center gap-1 text-neutral-300"
+              href="/projets"
+              class="inline-flex items-center gap-2 font-mono text-xs text-[#888888] hover:text-accent transition-colors font-semibold uppercase tracking-wider"
             >
-              <span>Dépôt GitHub</span>
-              <span>↗</span>
+              <span>←</span>
+              <span>RETOUR À L'INDEX DES PROJETS</span>
             </a>
-          )}
-          {project.demoUrl && (
-            <a
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-emerald-400 hover:text-white transition-colors inline-flex items-center gap-1 font-semibold"
-            >
-              <span>Live Demo</span>
-              <span>↗</span>
-            </a>
-          )}
-        </div>
-      </div>
-
-      <!-- En-tête Projet Hero Spacieux -->
-      <section class="p-8 sm:p-12 lg:p-16 border-b border-neutral-800 bg-[#0a0a0a]">
-        <div class="max-w-5xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 border border-neutral-800 bg-neutral-900/60 font-mono text-xs text-neutral-400 uppercase tracking-wider mb-6">
-            <span>COMPÉTENCE DU BUT :</span>
-            <span class="text-emerald-400 font-semibold">{project.competenceTitle}</span>
           </div>
 
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-mono text-neutral-100 uppercase tracking-tight leading-tight mb-6">
-            {project.title}
-          </h1>
+          <!-- Titre & Identité du projet -->
+          <div class="pb-6 border-b border-[#222222]">
+            <div class="flex items-center gap-2 font-mono text-[11px] text-accent font-bold mb-2">
+              <span>[SPEC_ID: {project.index}]</span>
+              <span class="text-[#444444]">//</span>
+              <span>{project.year}</span>
+            </div>
 
-          <p class="text-base sm:text-lg text-neutral-300 font-sans leading-relaxed mb-8 max-w-4xl">
-            {project.shortDescription}
-          </p>
+            <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl tracking-tight text-[#ededed] leading-[1.05] mb-3">
+              {project.title}
+            </h1>
 
-          <!-- Bandeau de métadonnées fiche technique -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-neutral-800 font-mono text-xs">
-            <div>
-              <span class="block text-neutral-600 uppercase text-[10px] mb-1">Catégorie</span>
-              <span class="text-neutral-300 font-medium">{project.category}</span>
-            </div>
-            <div>
-              <span class="block text-neutral-600 uppercase text-[10px] mb-1">Année / Période</span>
-              <span class="text-neutral-300 font-medium">{project.year}</span>
-            </div>
-            <div>
-              <span class="block text-neutral-600 uppercase text-[10px] mb-1">Axe BUT</span>
-              <span class="text-emerald-400 font-medium">{project.competenceId.toUpperCase()}</span>
-            </div>
-            <div>
-              <span class="block text-neutral-600 uppercase text-[10px] mb-1">Index Fiche</span>
-              <span class="text-neutral-300 font-medium">#{project.index}</span>
+            <div class="font-mono text-xs text-accent uppercase tracking-wider font-semibold">
+              // {project.category} · {project.competenceId.toUpperCase()}
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- Galerie Visuelle Adaptative (Hauteur maîtrisée, aucune déformation ni étirement) -->
-      <section class="border-b border-neutral-800 bg-neutral-950 p-6 sm:p-10">
-        <div class="max-w-5xl mx-auto">
-          <!-- Barre titre galerie avec contrôle d'agrandissement -->
-          <div class="flex items-center justify-between pb-3 mb-5 border-b border-neutral-800 font-mono text-xs text-neutral-500 uppercase">
-            <div class="flex items-center gap-2">
-              <span>Documentation Visuelle</span>
-              <span class="text-neutral-600">//</span>
-              <span class="text-neutral-400">
-                {project.images.length > 0 ? `${project.images.length} CAPTURE${project.images.length > 1 ? 'S' : ''}` : 'SCHÉMA SYSTÈME'}
-              </span>
-            </div>
-
-            {project.images.length > 0 && (
-              <button
-                id="open-lightbox-btn"
-                type="button"
-                class="hover:text-white transition-colors inline-flex items-center gap-1.5 text-neutral-400 text-xs cursor-pointer"
-                title="Agrandir en plein écran"
+          <!-- Liens d'action épurés -->
+          <div class="space-y-2 font-mono text-xs pb-6 border-b border-[#222222]">
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-between py-2 text-[#ededed] hover:text-accent transition-colors group"
               >
-                <span>Plein écran</span>
-                <span>⤢</span>
-              </button>
+                <span>Code Source GitHub</span>
+                <span class="text-[#666666] group-hover:text-accent transition-colors">↗</span>
+              </a>
+            )}
+
+            {project.demoUrl && (
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center justify-between py-2 text-emerald-400 hover:text-white transition-colors group font-semibold"
+              >
+                <span>Démonstration En Ligne</span>
+                <span class="text-emerald-400 group-hover:text-white transition-colors">↗</span>
+              </a>
             )}
           </div>
 
-          {project.images.length > 0 ? (
-            <div class="space-y-4">
-              <!-- Cadre d'affichage adaptatif : hauteur contrôlée, fond sombre technique, image jamais étirée -->
-              <div class="w-full h-[320px] sm:h-[400px] md:h-[460px] max-h-[55vh] bg-[#070707] border border-neutral-800 p-3 sm:p-5 flex items-center justify-center relative overflow-hidden group select-none">
-                <!-- Répères d'angles discrets -->
-                <span class="absolute top-2 left-2 font-mono text-[9px] text-neutral-700">+ VIEW_FRAME</span>
-                <span class="absolute top-2 right-2 font-mono text-[9px] text-neutral-700">SCALE: AUTO +</span>
-                <span class="absolute bottom-2 left-2 font-mono text-[9px] text-neutral-700">+ NO_DISTORTION</span>
-                <span class="absolute bottom-2 right-2 font-mono text-[9px] text-neutral-700">PREVIEW +</span>
-
-                <!-- Image avec dimensions intrinsèques respectées (object-contain sans étirement) -->
-                <img
-                  id="main-project-image"
-                  src={project.images[0]}
-                  alt={`Capture du projet ${project.title}`}
-                  class="max-h-full max-w-full w-auto h-auto object-contain shadow-2xl cursor-zoom-in transition-all duration-200"
-                  title="Cliquer pour afficher en plein écran"
-                />
-              </div>
-
-              <!-- Vignettes miniatures si plusieurs images -->
-              {project.images.length > 1 && (
-                <div class="flex gap-2.5 overflow-x-auto pb-1 pt-1" role="tablist" aria-label="Sélecteur de captures d'écran">
-                  {project.images.map((img, idx) => (
-                    <button
-                      type="button"
-                      class={`thumbnail-btn h-16 sm:h-20 aspect-video border overflow-hidden shrink-0 cursor-pointer transition-all p-1 bg-neutral-900/60 ${
-                        idx === 0 ? 'border-emerald-500 bg-neutral-900' : 'border-neutral-800 hover:border-neutral-600'
-                      }`}
-                      data-image-src={img}
-                      aria-label={`Afficher la capture ${idx + 1}`}
-                    >
-                      <img
-                        src={img}
-                        alt=""
-                        class="w-full h-full object-contain"
-                        loading="lazy"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <!-- Cas sans image : composant d'architecture système propre et compact -->
-            <div class="h-64 sm:h-72 w-full border border-dashed border-neutral-800 bg-[#070707] flex flex-col items-center justify-center p-6 text-center font-mono">
-              <div class="w-10 h-10 border border-neutral-700 mb-3 flex items-center justify-center text-neutral-500 text-xs">
-                CLI
-              </div>
-              <span class="text-xs text-neutral-300 uppercase tracking-widest font-semibold mb-2">
-                [PROJET SYSTÈME & CODE SOURCE]
+          <!-- Métadonnées alignées proprement sans bordures lourdes -->
+          <div class="space-y-4 font-mono text-xs text-[#888888] pb-6 border-b border-[#222222]">
+            <div>
+              <span class="text-[10px] uppercase text-[#555555] block mb-0.5 tracking-wider">
+                COMPÉTENCE DU BUT :
               </span>
-              <p class="text-xs text-neutral-500 max-w-md leading-relaxed">
-                Ce projet repose sur des services backend, de l’infrastructure système Linux ou des scripts automatisés sans interface graphique dédiée.
-              </p>
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="mt-4 px-4 py-2 border border-neutral-700 hover:border-neutral-400 text-xs text-neutral-300 hover:text-white transition-colors"
-                >
-                  Consulter le dépôt sur GitHub ↗
-                </a>
-              )}
+              <span class="text-[#ededed] font-semibold">
+                {project.competenceTitle}
+              </span>
             </div>
-          )}
-        </div>
-      </section>
 
-      <!-- Décomposition Technique Détaillée (Grille 1px border) -->
-      <section class="bg-neutral-800">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-[1px]">
-          <!-- Bloc 01 : Description Détaillée & Contexte -->
-          <div class="p-8 sm:p-12 bg-[#0a0a0a] flex flex-col justify-between">
             <div>
-              <div class="flex items-center gap-2 font-mono text-xs text-neutral-500 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
-                <span class="text-neutral-300 font-bold">[01]</span>
-                <span>Contexte & Problématique Technique</span>
-              </div>
-              <h3 class="font-mono text-lg font-bold text-neutral-100 uppercase mb-4">
-                Enjeux & Architecture
-              </h3>
-              <p class="text-sm sm:text-base text-neutral-300 font-sans leading-relaxed mb-6">
-                {project.descriptionDetailed}
-              </p>
-              <div class="p-5 border border-neutral-800 bg-neutral-950 font-mono text-xs">
-                <strong class="text-neutral-200 block mb-2 uppercase text-[11px] tracking-wider">
-                  Défi technique spécifique :
-                </strong>
-                <p class="text-neutral-400 font-sans leading-relaxed">
-                  {project.technicalProblem}
-                </p>
-              </div>
+              <span class="text-[10px] uppercase text-[#555555] block mb-0.5 tracking-wider">
+                PÉRIODE D'EXÉCUTION :
+              </span>
+              <span class="text-[#ededed]">
+                Année {project.year}
+              </span>
             </div>
-          </div>
 
-          <!-- Bloc 02 : Rôle Personnel & Responsabilités -->
-          <div class="p-8 sm:p-12 bg-[#0a0a0a] flex flex-col justify-between">
             <div>
-              <div class="flex items-center gap-2 font-mono text-xs text-neutral-500 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
-                <span class="text-neutral-300 font-bold">[02]</span>
-                <span>Rôle Personnel & Responsabilités</span>
-              </div>
-              <h3 class="font-mono text-lg font-bold text-neutral-100 uppercase mb-4">
-                Contribution Individuelle
-              </h3>
-              <p class="text-sm sm:text-base text-neutral-300 font-sans leading-relaxed mb-6">
-                {project.personalRole}
-              </p>
-
-              <!-- Livrables -->
-              <div class="mt-6 pt-6 border-t border-neutral-800">
-                <span class="font-mono text-xs uppercase tracking-wider text-neutral-500 block mb-2">
-                  Livrables & Résultats
-                </span>
-                <p class="text-xs sm:text-sm text-neutral-400 font-mono leading-relaxed">
-                  {project.deliverables}
-                </p>
-              </div>
+              <span class="text-[10px] uppercase text-[#555555] block mb-0.5 tracking-wider">
+                RÔLE PRINCIPAL :
+              </span>
+              <span class="text-[#ededed]">
+                {project.personalRole.split(':')[0] || 'Conception & Développement'}
+              </span>
             </div>
-          </div>
 
-          <!-- Bloc 03 : Compétences & Apprentissages Critiques (AC) -->
-          <div class="p-8 sm:p-12 bg-[#0a0a0a] flex flex-col justify-between lg:col-span-2">
             <div>
-              <div class="flex items-center gap-2 font-mono text-xs text-neutral-500 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
-                <span class="text-emerald-400 font-bold">[03]</span>
-                <span>Compétences & Apprentissages Critiques (AC) Validés</span>
-              </div>
-              <h3 class="font-mono text-lg font-bold text-neutral-100 uppercase mb-6">
-                Référentiel National BUT Informatique
-              </h3>
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {project.criticalLearnings.map((learning) => (
-                  <div class="p-4 border border-neutral-800 bg-neutral-950/60 font-mono text-xs text-neutral-300 flex items-start gap-3">
-                    <span class="w-2 h-2 bg-emerald-500 mt-1.5 shrink-0"></span>
-                    <span class="leading-relaxed">{learning}</span>
-                  </div>
+              <span class="text-[10px] uppercase text-[#555555] block mb-1 tracking-wider">
+                STACK TECHNIQUE :
+              </span>
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                {project.tags.map((tag) => (
+                  <span class="px-2 py-0.5 border border-[#222222] bg-[#121212] text-[#ededed] text-[10px]">
+                    {tag}
+                  </span>
                 ))}
               </div>
             </div>
+          </div>
 
-            <!-- Tags technologiques -->
-            <div class="mt-10 pt-6 border-t border-neutral-800 flex flex-wrap items-center gap-3">
-              <span class="font-mono text-xs text-neutral-500 uppercase mr-2">Technologies clés :</span>
-              {project.tags.map((tag) => (
-                <span class="px-3 py-1 border border-neutral-800 bg-neutral-900 font-mono text-xs text-neutral-300 uppercase">
-                  {tag}
+          <!-- Mini-Sommaire d'ancrage fluide -->
+          <nav class="space-y-2 font-mono text-xs text-[#777777]" aria-label="Sommaire de l'étude de cas">
+            <span class="text-[10px] uppercase text-[#555555] tracking-widest block mb-2 font-bold">
+              // SOMMAIRE DE L'ÉTUDE :
+            </span>
+            <a
+              href="#contexte"
+              class="block hover:text-accent transition-colors"
+            >
+              [01] // CONTEXTE & OBJECTIFS
+            </a>
+            <a
+              href="#architecture"
+              class="block hover:text-accent transition-colors"
+            >
+              [02] // ARCHITECTURE TECHNIQUE
+            </a>
+            <a
+              href="#competences"
+              class="block hover:text-accent transition-colors"
+            >
+              [03] // VALIDATION COMPÉTENCES BUT
+            </a>
+          </nav>
+        </aside>
+
+        <!-- ========================================================
+             COLONNE DROITE DÉFILANTE (70% - lg:col-span-8)
+             Le Récit Éditorial & Les Preuves Visuelles Haute Définition
+             ======================================================== -->
+        <article class="lg:col-span-8 space-y-16 lg:space-y-20">
+          <!-- Grande image principale en haut (haute définition, ratio d'origine préservé) -->
+          <section class="border border-[#222222] bg-[#0c0c0c] p-3 sm:p-5">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#222222] font-mono text-[11px] text-[#888888]">
+              <span class="text-[#ededed] font-semibold uppercase tracking-wider">
+                DOCUMENTATION VISUELLE // {project.title}
+              </span>
+              {project.images.length > 0 && (
+                <button
+                  type="button"
+                  id="trigger-lightbox-btn"
+                  class="text-accent hover:text-white transition-colors flex items-center gap-1 cursor-pointer font-bold"
+                  title="Agrandir en plein écran"
+                >
+                  <span>AGRANDIR HAUTE DÉFINITION</span>
+                  <span>⤢</span>
+                </button>
+              )}
+            </div>
+
+            {project.images.length > 0 ? (
+              <div class="space-y-3">
+                <div class="h-[340px] sm:h-[420px] md:h-[480px] w-full bg-[#060606] border border-[#1f1f1f] flex items-center justify-center p-2 relative overflow-hidden group select-none">
+                  <img
+                    id="hero-project-image"
+                    src={project.images[0]}
+                    alt={`Trace visuelle principale pour ${project.title}`}
+                    class="max-w-full max-h-full w-auto h-auto object-contain cursor-zoom-in transition-transform duration-200 group-hover:scale-[1.01]"
+                    title="Cliquer pour examiner en haute définition"
+                  />
+                  <div class="absolute bottom-3 right-3 px-2 py-1 bg-black/90 font-mono text-[10px] text-accent border border-[#262626] opacity-0 group-hover:opacity-100 transition-opacity">
+                    CLIQUER POUR AGRANDIR ⤢
+                  </div>
+                </div>
+
+                <!-- Galerie de vignettes si plusieurs captures -->
+                {project.images.length > 1 && (
+                  <div class="flex gap-2 overflow-x-auto pb-1 pt-1" role="tablist">
+                    {project.images.map((img, idx) => (
+                      <button
+                        type="button"
+                        class={`thumbnail-btn h-14 sm:h-18 aspect-video border overflow-hidden shrink-0 cursor-pointer transition-all p-1 bg-[#090909] ${
+                          idx === 0 ? 'border-accent' : 'border-[#222222] hover:border-[#444444]'
+                        }`}
+                        data-image-src={img}
+                        aria-label={`Afficher la capture ${idx + 1}`}
+                      >
+                        <img
+                          src={img}
+                          alt=""
+                          class="w-full h-full object-contain"
+                          loading="lazy"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <!-- Projet Système / CTF sans interface graphique : Télémétrie / Architecture dédiée -->
+              <div class="h-64 sm:h-80 w-full border border-dashed border-[#262626] bg-[#080808] p-6 flex flex-col justify-between font-mono text-xs">
+                <div class="flex items-center justify-between border-b border-[#222222] pb-2">
+                  <span class="text-[#ededed] font-bold">ARCHITECTURE SYSTÈME & CODE DSI</span>
+                  <span class="text-emerald-400">● VALIDÉ</span>
+                </div>
+                <div class="space-y-1.5 my-auto text-xs text-[#888888]">
+                  <div class="text-[#555555]">// COMPOSANTS DÉPLOYÉS EN PRODUCTION</div>
+                  <div class="text-[#ededed] font-semibold">ORCHESTRATION DOCKER & KATHARA EMULATION</div>
+                  <div class="text-accent">ISOLATION DES SOUS-RÉSEAUX & SÉCURISATION CTF</div>
+                  <div class="text-[#777777]">Code source et recettes d'infrastructure disponibles sur demande.</div>
+                </div>
+                <div class="pt-2 border-t border-[#222222] flex justify-between text-[11px] text-[#555555]">
+                  <span>ENV: LINUX DEBIAN</span>
+                  <span class="text-[#ededed]">UNIVERSITÉ DE LIMOGES</span>
+                </div>
+              </div>
+            )}
+          </section>
+
+          <!-- Section 01 : Contexte & Objectifs -->
+          <section id="contexte" class="pt-4 border-t border-[#222222]">
+            <div class="flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider mb-3">
+              <span>01 //</span>
+              <span>CONTEXTE & PROBLÉMATIQUE TECHNIQUE</span>
+            </div>
+
+            <h2 class="font-serif text-3xl sm:text-4xl text-[#ededed] mb-6 leading-tight">
+              Enjeux du Projet & Cadrage
+            </h2>
+
+            <div class="font-mono text-xs sm:text-sm text-[#999999] leading-relaxed max-w-3xl space-y-4">
+              <p>{project.descriptionDetailed}</p>
+            </div>
+
+            <!-- Encart défi technique spécifique -->
+            <div class="mt-8 p-5 border-l-2 border-accent bg-[#0d0d0d] font-mono text-xs leading-relaxed max-w-3xl">
+              <strong class="text-[#ededed] uppercase text-[11px] tracking-wider block mb-1">
+                Défi technique spécifique rencontré :
+              </strong>
+              <p class="text-[#888888]">{project.technicalProblem}</p>
+            </div>
+          </section>
+
+          <!-- Section 02 : Architecture Technique & Rôle Personnel -->
+          <section id="architecture" class="pt-4 border-t border-[#222222]">
+            <div class="flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider mb-3">
+              <span>02 //</span>
+              <span>ARCHITECTURE TECHNIQUE & CONTRIBUTION</span>
+            </div>
+
+            <h2 class="font-serif text-3xl sm:text-4xl text-[#ededed] mb-6 leading-tight">
+              Conception, Rôle & Résultats Tangibles
+            </h2>
+
+            <div class="space-y-8 max-w-3xl font-mono text-xs sm:text-sm text-[#999999] leading-relaxed">
+              <!-- Rôle individuel -->
+              <div>
+                <h3 class="text-xs uppercase tracking-wider text-[#ededed] font-bold mb-3 font-mono">
+                  // RÔLE PERSONNEL & RESPONSABILITÉS :
+                </h3>
+                <p>{project.personalRole}</p>
+              </div>
+
+              <!-- Livrables -->
+              <div class="p-5 border border-[#222222] bg-[#0c0c0c]">
+                <h3 class="text-xs uppercase tracking-wider text-accent font-bold mb-2 font-mono">
+                  // LIVRABLES & PRODUCTIONS DU PROJET :
+                </h3>
+                <p class="text-[#888888] text-xs leading-relaxed">{project.deliverables}</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 03 : Validation des Compétences du BUT (Format Noble et Ouvert) -->
+          <section id="competences" class="pt-4 border-t border-[#222222]">
+            <div class="flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-wider mb-3">
+              <span>03 //</span>
+              <span>VALIDATION DES COMPÉTENCES DU BUT INFORMATIQUE</span>
+            </div>
+
+            <h2 class="font-serif text-3xl sm:text-4xl text-[#ededed] mb-6 leading-tight">
+              Apprentissages Critiques & Justification Réflexive
+            </h2>
+
+            <!-- En-tête de la compétence -->
+            <div class="mb-8 p-4 border border-[#262626] bg-[#0c0c0c] flex items-center justify-between flex-wrap gap-3 font-mono text-xs">
+              <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 bg-emerald-500"></span>
+                <span class="text-[#ededed] font-bold uppercase tracking-wider">
+                  COMPÉTENCE ÉVALUÉE :
                 </span>
+                <span class="text-accent font-semibold">{project.competenceTitle}</span>
+              </div>
+              <span class="text-[10px] text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2 py-0.5 uppercase">
+                ACQUISITION CONFIRMÉE
+              </span>
+            </div>
+
+            <!-- Liste des Apprentissages Critiques (AC) -->
+            <div class="space-y-3 mb-10 max-w-3xl font-mono text-xs">
+              {project.criticalLearnings.map((learning) => (
+                <div class="p-4 border-l-2 border-emerald-500 bg-[#0d0d0d] flex items-start gap-3">
+                  <span class="text-emerald-400 font-bold">●</span>
+                  <span class="text-[#ededed] leading-relaxed">{learning}</span>
+                </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- Navigation Projet Précédent / Suivant -->
-      <section class="border-t border-neutral-800 bg-neutral-950 flex flex-col sm:flex-row items-stretch divide-y sm:divide-y-0 sm:divide-x divide-neutral-800 font-mono text-xs">
-        <div class="flex-1 p-6 sm:p-8">
-          {prevProject ? (
-            <a href={`/projets/${prevProject.slug}`} class="group flex flex-col gap-1.5 hover:text-white transition-colors">
-              <span class="text-neutral-500 uppercase text-[10px]">← PROJET PRÉCÉDENT</span>
-              <span class="text-sm font-bold text-neutral-200 group-hover:text-emerald-400 truncate">
-                {prevProject.title}
-              </span>
+            <!-- Justification Réflexive & Preuve Visuelle associée -->
+            <div class="p-6 border border-[#222222] bg-[#0b0b0b] max-w-3xl space-y-4 font-mono text-xs leading-relaxed">
+              <h3 class="text-xs uppercase tracking-wider text-accent font-bold">
+                // BILAN RÉFLEXIF & DÉMONSTRATION DU CANDIDAT :
+              </h3>
+              <p class="text-[#999999]">
+                Ce projet a constitué une mise en situation authentique me permettant de mobiliser des concepts théoriques de génie logiciel, d'algorithmique et d'administration sous Linux. L'exigence de modularité et la traçabilité du code garantissent la pérennité de la solution livrée.
+              </p>
+
+              {project.images.length > 0 && (
+                <div class="pt-4 border-t border-[#1f1f1f] flex items-center justify-between">
+                  <span class="text-[#666666]">PREUVE LIÉE AU RÉFÉRENTIEL :</span>
+                  <button
+                    type="button"
+                    class="secondary-lightbox-trigger text-accent hover:text-white transition-colors cursor-pointer font-bold flex items-center gap-1"
+                  >
+                    <span>EXAMINER LA PREUVE EN PLEIN ÉCRAN</span>
+                    <span>↗</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </section>
+
+          <!-- Navigation de transition fluide vers le projet suivant -->
+          <footer class="pt-16 border-t border-[#222222] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            {nextProject ? (
+              <a
+                href={`/projets/${nextProject.slug}`}
+                class="group flex flex-col items-start gap-1 select-none"
+              >
+                <span class="font-mono text-xs uppercase text-[#777777] tracking-wider">
+                  PROJET SUIVANT →
+                </span>
+                <span class="font-serif text-2xl sm:text-3xl text-[#ededed] group-hover:text-accent group-hover:translate-x-1.5 transition-all leading-snug">
+                  {nextProject.title}
+                </span>
+              </a>
+            ) : prevProject ? (
+              <a
+                href={`/projets/${prevProject.slug}`}
+                class="group flex flex-col items-start gap-1 select-none"
+              >
+                <span class="font-mono text-xs uppercase text-[#777777] tracking-wider">
+                  ← PREMIER PROJET DU CATALOGUE
+                </span>
+                <span class="font-serif text-2xl sm:text-3xl text-[#ededed] group-hover:text-accent group-hover:translate-x-1.5 transition-all leading-snug">
+                  {prevProject.title}
+                </span>
+              </a>
+            ) : null}
+
+            <a
+              href="/projets"
+              class="font-mono text-xs uppercase tracking-wider text-[#888888] hover:text-white border-b border-[#333333] hover:border-white transition-colors pb-1 shrink-0"
+            >
+              Consulter l'Index des Projets ↗
             </a>
-          ) : (
-            <span class="text-neutral-600 text-xs">DÉBUT DU RÉFÉRENTIEL</span>
-          )}
-        </div>
-
-        <div class="p-6 sm:p-8 flex items-center justify-center shrink-0">
-          <a
-            href="/projets"
-            class="px-5 py-3 border border-neutral-800 hover:border-neutral-500 hover:bg-neutral-900 text-neutral-300 hover:text-white transition-colors uppercase text-xs font-semibold"
-          >
-            Tous les projets
-          </a>
-        </div>
-
-        <div class="flex-1 p-6 sm:p-8 text-left sm:text-right">
-          {nextProject ? (
-            <a href={`/projets/${nextProject.slug}`} class="group flex flex-col gap-1.5 hover:text-white transition-colors">
-              <span class="text-neutral-500 uppercase text-[10px]">PROJET SUIVANT →</span>
-              <span class="text-sm font-bold text-neutral-200 group-hover:text-emerald-400 truncate">
-                {nextProject.title}
-              </span>
-            </a>
-          ) : (
-            <span class="text-neutral-600 text-xs">FIN DU RÉFÉRENTIEL</span>
-          )}
-        </div>
-      </section>
+          </footer>
+        </article>
+      </div>
     </main>
 
-    <!-- Modal Lightbox Plein Écran pour examiner l'image haute définition -->
+    <!-- ========================================================
+         MODALE / LIGHTBOX HAUTE DÉFINITION PLEIN ÉCRAN
+         Permet au jury d'examiner chaque capture, schéma ou code sans réduction
+         ======================================================== -->
     <dialog
       id="lightbox-dialog"
-      class="backdrop:bg-black/90 bg-transparent p-4 sm:p-8 max-w-7xl max-h-[96vh] w-full m-auto border-0 focus:outline-none"
+      class="backdrop:bg-black/95 bg-transparent p-4 sm:p-8 max-w-7xl max-h-[96vh] w-full m-auto border-0 focus:outline-none"
     >
-      <div class="relative bg-neutral-950 border border-neutral-800 p-4 sm:p-6 flex flex-col max-h-[90vh]">
-        <div class="flex items-center justify-between pb-3 mb-3 border-b border-neutral-800 font-mono text-xs text-neutral-400">
-          <span class="truncate pr-4">{project.title} // VUE PLEIN ÉCRAN</span>
+      <div class="relative bg-[#0c0c0c] border border-[#262626] p-4 sm:p-6 flex flex-col max-h-[92vh] select-none">
+        <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#262626] font-mono text-xs text-[#888888]">
+          <div class="flex items-center gap-2 truncate pr-4">
+            <span class="text-accent font-bold">[VUE HAUTE DÉFINITION]</span>
+            <span class="text-[#ededed] truncate">{project.title}</span>
+          </div>
           <button
             id="close-lightbox-btn"
             type="button"
-            class="px-3 py-1 bg-neutral-900 hover:bg-neutral-800 text-white font-mono text-xs border border-neutral-700 cursor-pointer"
+            class="px-3.5 py-1.5 bg-[#141414] hover:bg-white hover:text-black text-white font-mono text-xs border border-[#333333] transition-colors cursor-pointer font-bold"
           >
             FERMER [ESC] ✕
           </button>
         </div>
-        <div class="grow overflow-auto flex items-center justify-center p-2">
+
+        <div class="grow overflow-auto flex items-center justify-center p-2 bg-[#050505]">
           <img
             id="lightbox-image"
-            src=""
+            src={project.images.length > 0 ? project.images[0] : ''}
             alt=""
-            class="max-h-[75vh] max-w-full w-auto h-auto object-contain mx-auto"
+            class="max-h-[78vh] max-w-full w-auto h-auto object-contain mx-auto"
           />
         </div>
       </div>
     </dialog>
-
-    <!-- Footer -->
-    <ContactFooter />
   </div>
 </Layout>
 
-<!-- Script interactif : sélecteur de captures & visionneuse plein écran -->
 <script>
-  function setupAdaptiveGallery() {
-    const mainImg = document.getElementById('main-project-image') as HTMLImageElement | null;
+  // ========================================================
+  // INTERACTIVE GALLERY & HIGH-DEFINITION LIGHTBOX
+  // ========================================================
+  function initProjectDetail() {
+    const heroImg = document.getElementById('hero-project-image') as HTMLImageElement | null;
     const thumbnailBtns = document.querySelectorAll<HTMLButtonElement>('.thumbnail-btn');
     const lightboxDialog = document.getElementById('lightbox-dialog') as HTMLDialogElement | null;
     const lightboxImg = document.getElementById('lightbox-image') as HTMLImageElement | null;
-    const openLightboxBtn = document.getElementById('open-lightbox-btn');
+    const triggerLightboxBtn = document.getElementById('trigger-lightbox-btn');
+    const secondaryTrigger = document.querySelector<HTMLButtonElement>('.secondary-lightbox-trigger');
     const closeLightboxBtn = document.getElementById('close-lightbox-btn');
 
-    if (!mainImg) return;
-
-    // Changement d'image via les vignettes
+    // Changement de l'image via les vignettes
     thumbnailBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        const newSrc = btn.getAttribute('data-image-src');
-        if (newSrc && mainImg) {
-          mainImg.src = newSrc;
+        const src = btn.getAttribute('data-image-src');
+        if (src && heroImg) {
+          heroImg.src = src;
           thumbnailBtns.forEach((b) => {
-            b.classList.remove('border-emerald-500');
-            b.classList.add('border-neutral-800');
+            b.classList.remove('border-accent');
+            b.classList.add('border-[#222222]');
           });
-          btn.classList.add('border-emerald-500');
-          btn.classList.remove('border-neutral-800');
+          btn.classList.add('border-accent');
+          btn.classList.remove('border-[#222222]');
         }
       });
     });
 
-    // Plein écran
+    // Fonctions de la visionneuse plein écran
     function openLightbox() {
-      if (lightboxDialog && lightboxImg && mainImg) {
-        lightboxImg.src = mainImg.src;
+      if (lightboxDialog && lightboxImg && heroImg) {
+        lightboxImg.src = heroImg.src;
         lightboxDialog.showModal();
       }
     }
@@ -409,8 +484,9 @@ const { project, prevProject, nextProject } = Astro.props;
       }
     }
 
-    openLightboxBtn?.addEventListener('click', openLightbox);
-    mainImg.addEventListener('click', openLightbox);
+    heroImg?.addEventListener('click', openLightbox);
+    triggerLightboxBtn?.addEventListener('click', openLightbox);
+    secondaryTrigger?.addEventListener('click', openLightbox);
     closeLightboxBtn?.addEventListener('click', closeLightbox);
 
     lightboxDialog?.addEventListener('click', (e) => {
@@ -418,8 +494,14 @@ const { project, prevProject, nextProject } = Astro.props;
         closeLightbox();
       }
     });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightboxDialog?.open) {
+        closeLightbox();
+      }
+    });
   }
 
-  document.addEventListener('DOMContentLoaded', setupAdaptiveGallery);
-  setupAdaptiveGallery();
+  document.addEventListener('DOMContentLoaded', initProjectDetail);
+  initProjectDetail();
 </script>
