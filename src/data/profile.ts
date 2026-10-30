@@ -9,11 +9,11 @@ export const PROFILE: ProfileData = {
   heroBio:
     'Étudiant en BUT Informatique (Parcours RACDV) à l’Université de Limoges. Orienté conception modulaire, environnements Linux/DevOps et interfaces précises.',
   academicPath: [
-    'Actuellement en 3ème année de BUT Informatique (Parcours RACDV : Réalisation d’Applications — Conception, Développement, Validation) à l’IUT du Limousin / Université de Limoges.',
-    'Formation axée sur la rigueur algorithmique, la conduite de projets agiles (SAE), l’administration système sous Linux, le génie logiciel et la sécurité.',
+    'Étudiant en 3ème année de BUT Informatique (Parcours RACDV) · Université de Limoges / IUT du Limousin.',
+    'Formation axée sur la rigueur algorithmique, la conduite de projets (gestion et méthodes Agiles), l’administration système sous Linux, le génie logiciel et la sécurité.',
   ],
-  codePhilosophy:
-    'Privilégier la clarté conceptuelle, le typage strict et la modularité. Éviter la dette technique et concevoir des systèmes prévisibles, vérifiables et pérennes.',
+  hobbies:
+    'Passionné par la culture musicale et le cinéma, j\'aime également la cuisine et les jeux d\'échecs.',
   lookingFor:
     'À la recherche d’un stage de fin d’études (12 à 16 semaines) orienté Développement Web / Logiciel, Ingénierie Full-Stack ou Culture DevOps.',
   contacts: {

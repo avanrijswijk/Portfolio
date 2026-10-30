@@ -49,7 +49,7 @@ export interface ProfileData {
   heroHeadline: string;
   heroBio: string;
   academicPath: string[];
-  codePhilosophy: string;
+  hobbies: string;
   lookingFor: string;
   contacts: {
     email: string;

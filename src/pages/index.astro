@@ -39,8 +39,8 @@ const featuredProjects = getFeaturedProjects();
               class="font-mono text-xs sm:text-sm uppercase tracking-widest text-[#888888] mb-4 flex items-center gap-2"
             >
               <span class="w-1.5 h-1.5 bg-accent"></span>
-              <span class="scramble-text" data-scramble="// BUT 3 RACDV · UNIVERSITÉ DE LIMOGES">
-                // BUT 3 RACDV · UNIVERSITÉ DE LIMOGES
+              <span class="scramble-text" data-scramble="// BUT 3 Informatique · UNIVERSITÉ DE LIMOGES">
+                // BUT 3 Informatique · UNIVERSITÉ DE LIMOGES
               </span>
             </div>
 
@@ -51,7 +51,7 @@ const featuredProjects = getFeaturedProjects();
 
             <!-- Bio / Accroche technique -->
             <p class="font-mono text-xs sm:text-sm md:text-base text-[#888888] max-w-xl leading-relaxed mb-8">
-              Développeur junior en développement Web / Logiciel avec une sensibilité pour la culture DevOps. Actuellement en BUT Informatique, je recherche un stage de 16 semaines pour approfondir mes acquis et améliorer mes compétences professionnelles.
+              Développeur junior en développement Web / Logiciel et culture DevOps. Actuellement en BUT Informatique, je recherche un stage de 16 semaines pour approfondir mes acquis et améliorer mes compétences professionnelles.
             </p>
 
             <!-- Boutons d'action francs, 0 radius, inversion hover -->
@@ -73,11 +73,6 @@ const featuredProjects = getFeaturedProjects();
                 <span>Télécharger CV</span>
                 <span>↗</span>
               </a>
-            </div>
-
-            <!-- Note technique d'orientation -->
-            <div class="mt-8 pt-4 border-t border-[#262626] font-mono text-[11px] text-[#888888] tracking-wider flex items-center gap-4">
-              <span>[NAVIGUER] : DÉFILEMENT SOURIS OU FLÈCHES ↑ / ↓</span>
             </div>
           </div>
 
@@ -229,7 +224,7 @@ const featuredProjects = getFeaturedProjects();
                   RÉFÉRENTIEL COMPLET DU BUT INFORMATIQUE
                 </span>
                 <span class="font-serif text-base sm:text-lg text-[#ededed]">
-                  Explorer l'ensemble des 9 projets classés par compétences (C1 à C6)
+                  Explorer l'ensemble des projets classés par compétences (C1 à C6)
                 </span>
               </div>
             </div>
@@ -287,18 +282,21 @@ const featuredProjects = getFeaturedProjects();
                 <span class="text-[10px] uppercase text-accent font-bold tracking-wider block mb-1">
                   // CANDIDAT & FORMATION
                 </span>
-                <div class="font-serif text-2xl text-[#ededed] mb-1">
+                <div class="font-serif text-2xl text-[#ededed] mb-4">
                   {PROFILE.fullName}
                 </div>
                 <div class="text-[#888888] mb-3 text-[11px]">
-                  Étudiant en 3ème année de BUT Informatique (Parcours RACDV) · Université de Limoges / IUT du Limousin.
+                  {PROFILE.academicPath[0]}
                 </div>
-                <div class="text-[11px] text-[#777777] leading-relaxed space-y-2">
-                  <p>Formation axée sur la rigueur algorithmique, la conduite de projets agiles (SAE), l’administration système sous Linux, le génie logiciel et la sécurité.</p>
-                  <p class="text-[#999999]"><strong class="text-[#ededed]">Philosophie :</strong> {PROFILE.codePhilosophy}</p>
+                <div class="text-[11px] text-[#888888] leading-relaxed space-y-2">
+                  <p class="mb-6">{PROFILE.academicPath[1]}</p>
+                  <p class="text-[#999999]"><strong class="text-[#ededed]">Centre d'intérêts :</strong> {PROFILE.hobbies}</p>
                 </div>
               </div>
+            </div>
 
+            <!-- Colonne Droite : Recherche Professionnelle & Boîte de Contact -->
+            <div class="lg:col-span-6 space-y-4 font-mono text-xs">
               <!-- Encart recherche de stage -->
               <div class="border border-[#262626] bg-[#0e0e0e] p-4 flex items-start gap-3">
                 <span class="text-emerald-400 font-bold text-sm">[!]</span>
@@ -311,35 +309,6 @@ const featuredProjects = getFeaturedProjects();
                   </p>
                 </div>
               </div>
-            </div>
-
-            <!-- Colonne Droite : Stack Technique & Boîte de Contact -->
-            <div class="lg:col-span-6 space-y-4 font-mono text-xs">
-              <!-- Stack technique résumée -->
-              <div class="border border-[#262626] bg-[#0c0c0c] p-4 sm:p-5">
-                <span class="text-[10px] uppercase text-[#888888] font-bold tracking-wider block mb-2">
-                  // SPÉCIFICATIONS TECHNIQUES
-                </span>
-                <div class="grid grid-cols-2 gap-2 text-[10px]">
-                  <div class="p-2 border border-[#1f1f1f] bg-[#121212]">
-                    <span class="text-accent font-bold block mb-1">LANGAGES</span>
-                    <span class="text-[#888888]">TypeScript, Python, Kotlin, C, PHP, SQL, Bash</span>
-                  </div>
-                  <div class="p-2 border border-[#1f1f1f] bg-[#121212]">
-                    <span class="text-accent font-bold block mb-1">FRAMEWORKS & OUTILS</span>
-                    <span class="text-[#888888]">Astro, React, Tailwind, Jetpack Compose, Git</span>
-                  </div>
-                  <div class="p-2 border border-[#1f1f1f] bg-[#121212]">
-                    <span class="text-accent font-bold block mb-1">ENVIRONNEMENT & OS</span>
-                    <span class="text-[#888888]">Linux (Debian/Arch), Docker, Ansible, Kathara</span>
-                  </div>
-                  <div class="p-2 border border-[#1f1f1f] bg-[#121212]">
-                    <span class="text-accent font-bold block mb-1">INTÉRÊTS</span>
-                    <span class="text-[#888888]">DevOps, Cybersécurité/CTF, Rendu 1-bit, DDD</span>
-                  </div>
-                </div>
-              </div>
-
               <!-- Coordonnées & Prise de Contact -->
               <div class="border border-[#262626] bg-[#0c0c0c] p-4 sm:p-5">
                 <span class="text-[10px] uppercase text-[#888888] font-bold tracking-wider block mb-3">
@@ -359,7 +328,7 @@ const featuredProjects = getFeaturedProjects();
                     <span class="text-[10px] text-[#555555] block">EMAIL ÉTUDIANT :</span>
                     <a
                       href={`mailto:${PROFILE.contacts.studentEmail}`}
-                      class="text-[#888888] hover:text-white transition-colors truncate block"
+                      class="text-[#ededed] hover:text-accent font-semibold transition-colors truncate block"
                     >
                       {PROFILE.contacts.studentEmail} ↗
                     </a>
