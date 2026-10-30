@@ -16,7 +16,7 @@ const featuredProjects = getFeaturedProjects();
       <span class="px-2.5 py-1 border border-neutral-800 bg-neutral-900/60 text-emerald-400 font-medium">
         {featuredProjects.length} PROJETS MAJEURS
       </span>
-      <a href="/projets" class="text-neutral-400 hover:text-white transition-colors hidden sm:inline-flex items-center gap-1">
+      <a href={`${import.meta.env.BASE_URL}projets`} class="text-neutral-400 hover:text-white transition-colors hidden sm:inline-flex items-center gap-1">
         <span>Tous les projets</span>
         <span>→</span>
       </a>
@@ -41,7 +41,7 @@ const featuredProjects = getFeaturedProjects();
 
         <!-- Zone d'aperçu 16/9 -->
         <a
-          href={`/projets/${project.slug}`}
+          href={`${import.meta.env.BASE_URL}projets/${project.slug}`}
           class="aspect-video w-full bg-neutral-950 border-b border-neutral-800 relative flex items-center justify-center overflow-hidden block"
         >
           {project.image ? (
@@ -73,7 +73,7 @@ const featuredProjects = getFeaturedProjects();
           </span>
 
           <h3 class="font-mono font-bold text-lg text-neutral-100 mb-3 group-hover:text-emerald-400 transition-colors leading-snug">
-            <a href={`/projets/${project.slug}`}>
+            <a href={`${import.meta.env.BASE_URL}projets/${project.slug}`}>
               {project.title}
             </a>
           </h3>
@@ -112,7 +112,7 @@ const featuredProjects = getFeaturedProjects();
           <!-- Actions -->
           <div class="flex items-center justify-between pt-3 border-t border-neutral-800/80 font-mono text-xs">
             <a
-              href={`/projets/${project.slug}`}
+              href={`${import.meta.env.BASE_URL}projets/${project.slug}`}
               class="text-neutral-100 hover:text-emerald-400 font-semibold transition-colors inline-flex items-center gap-1.5"
             >
               <span>Fiche détaillée</span>
@@ -151,7 +151,7 @@ const featuredProjects = getFeaturedProjects();
     </div>
 
     <a
-      href="/projets"
+      href={`${import.meta.env.BASE_URL}projets`}
       class="w-full lg:w-auto px-8 py-5 bg-neutral-100 text-neutral-950 hover:bg-white font-mono text-xs font-bold uppercase tracking-wider transition-all inline-flex items-center justify-center gap-3 shrink-0 group"
     >
       <span>Voir tous les projets par compétences</span>

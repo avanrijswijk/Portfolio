@@ -49,7 +49,7 @@ const { project, prevProject, nextProject } = Astro.props;
           <!-- Bouton Retour à l'index -->
           <div>
             <a
-              href="/projets"
+              href={`${import.meta.env.BASE_URL}projets`}
               class="inline-flex items-center gap-2 font-mono text-xs text-[#888888] hover:text-accent transition-colors font-semibold uppercase tracking-wider"
             >
               <span>←</span>
@@ -370,7 +370,7 @@ const { project, prevProject, nextProject } = Astro.props;
           <footer class="pt-16 border-t border-[#222222] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
             {nextProject ? (
               <a
-                href={`/projets/${nextProject.slug}`}
+                href={`${import.meta.env.BASE_URL}projets/${nextProject.slug}`}
                 class="group flex flex-col items-start gap-1 select-none"
               >
                 <span class="font-mono text-xs uppercase text-[#777777] tracking-wider">
@@ -382,7 +382,7 @@ const { project, prevProject, nextProject } = Astro.props;
               </a>
             ) : prevProject ? (
               <a
-                href={`/projets/${prevProject.slug}`}
+                href={`${import.meta.env.BASE_URL}projets/${prevProject.slug}`}
                 class="group flex flex-col items-start gap-1 select-none"
               >
                 <span class="font-mono text-xs uppercase text-[#777777] tracking-wider">
@@ -395,7 +395,7 @@ const { project, prevProject, nextProject } = Astro.props;
             ) : null}
 
             <a
-              href="/projets"
+              href={`${import.meta.env.BASE_URL}projets`}
               class="font-mono text-xs uppercase tracking-wider text-[#888888] hover:text-white border-b border-[#333333] hover:border-white transition-colors pb-1 shrink-0"
             >
               Consulter l'Index des Projets ↗

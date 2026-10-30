@@ -10,4 +10,5 @@ export default defineConfig({
     }),
   ],
   site: 'https://avanrijswijk.github.io',
+  base: '/Portfolio/',
 });

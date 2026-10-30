@@ -1,5 +1,9 @@
 import type { Competence, Project, ProjectCategory } from '../types/portfolio';
 
+const BASE_PATH = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL.slice(0, -1)
+  : import.meta.env.BASE_URL;
+
 export const PROJECT_CATEGORIES: ProjectCategory[] = [
   'Tous',
   'Système/Bas-niveau',
@@ -121,12 +125,12 @@ export const PROJECTS: Project[] = [
     ],
     tags: ['HTML5', 'JavaScript', 'PHP', 'SQL', 'Bulma', 'Chart.js'],
     images: [
-      '/images/projects/questionnaire-2.png',
-      '/images/projects/questionnaire-3.png',
-      '/images/projects/questionnaire-4.png',
-      '/images/projects/questionnaire-1.png',
+      `${BASE_PATH}/images/projects/questionnaire-2.png`,
+      `${BASE_PATH}/images/projects/questionnaire-3.png`,
+      `${BASE_PATH}/images/projects/questionnaire-4.png`,
+      `${BASE_PATH}/images/projects/questionnaire-1.png`,
     ],
-    image: '/images/projects/questionnaire-2.png',
+    image: `${BASE_PATH}/images/projects/questionnaire-2.png`,
     githubUrl: 'https://github.com/avanrijswijk',
     featured: true, // PROJET PHARE N°2
   },
@@ -160,11 +164,11 @@ export const PROJECTS: Project[] = [
     ],
     tags: ['Kotlin', 'Jetpack Compose', 'Room SQLite', 'Android SDK', 'Coroutines'],
     images: [
-      '/images/projects/tonote-1.png',
-      '/images/projects/tonote-2.png',
-      '/images/projects/tonote-3.png',
+      `${BASE_PATH}/images/projects/tonote-1.png`,
+      `${BASE_PATH}/images/projects/tonote-2.png`,
+      `${BASE_PATH}/images/projects/tonote-3.png`,
     ],
-    image: '/images/projects/tonote-1.png',
+    image: `${BASE_PATH}/images/projects/tonote-1.png`,
     githubUrl: 'https://github.com/avanrijswijk',
     featured: true, // PROJET PHARE N°3
   },
@@ -226,8 +230,8 @@ export const PROJECTS: Project[] = [
       'Configuration et diagnostic de tables de routage statique sous Linux',
     ],
     tags: ['Kathara', 'Linux', 'Réseaux', 'CIDR / VLSM', 'Routage IP', 'Bash'],
-    images: ['/images/projects/kathara-1.png'],
-    image: '/images/projects/kathara-1.png',
+    images: [`${BASE_PATH}/images/projects/kathara-1.png`],
+    image: `${BASE_PATH}/images/projects/kathara-1.png`,
     githubUrl: 'https://github.com/avanrijswijk',
     featured: false,
   },
@@ -258,8 +262,8 @@ export const PROJECTS: Project[] = [
       'Gestion étanche des sessions utilisateur et prévention des failles de session',
     ],
     tags: ['CAS', 'SSO', 'Sécurité Web', 'PHP', 'Gestion Sessions'],
-    images: ['/images/projects/cas-1.png'],
-    image: '/images/projects/cas-1.png',
+    images: [`${BASE_PATH}/images/projects/cas-1.png`],
+    image: `${BASE_PATH}/images/projects/cas-1.png`,
     githubUrl: 'https://github.com/avanrijswijk',
     featured: false,
   },

@@ -21,7 +21,7 @@ const {
 >
   <!-- Top-Left: Brand & Location -->
   <a
-    href="/"
+    href={import.meta.env.BASE_URL}
     class="pointer-events-auto group flex items-center gap-2.5 font-mono text-xs uppercase tracking-wider text-[#ededed] bg-[#0a0a0a]/90 border border-[#262626] px-3 py-1.5 backdrop-blur-md hover:border-accent transition-colors"
     aria-label="Retour à l'accueil"
   >
@@ -53,13 +53,13 @@ const {
       aria-label="Navigation rapide"
     >
       <a
-        href="/"
+        href={import.meta.env.BASE_URL}
         class="px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
       >
         [00] ACCUEIL
       </a>
       <a
-        href="/projets"
+        href={`${import.meta.env.BASE_URL}projets`}
         class={`px-2.5 py-1 text-[11px] tracking-wider uppercase transition-colors duration-100 ${
           currentPath === '/projets'
             ? 'text-white font-bold bg-white/10'
@@ -69,7 +69,7 @@ const {
         [01] CATALOGUE BUT
       </a>
       <a
-        href="/#contact"
+        href={`${import.meta.env.BASE_URL}#contact`}
         class="px-2.5 py-1 text-[11px] tracking-wider uppercase text-[#888888] hover:text-white hover:bg-white/5 transition-colors duration-100"
       >
         [02] CONTACT
